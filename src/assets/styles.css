@@ -1,0 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+body {
+  font-family: 'Inter', sans-serif;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  background: var(--bg-color, linear-gradient(135deg, #fce7ea, #e6f0fa)); /* Фallback для світлої теми */
+}
+
+[data-theme="dark"] body {
+  background: var(--bg-color, linear-gradient(135deg, #2a1c2b, #1c252b)); /* Фallback для темної теми */
+}
