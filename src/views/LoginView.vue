@@ -50,7 +50,7 @@ export default {
     async login() {
       try {
         console.log('Надсилання запиту на вхід...');
-        const response = await axios.post('http://localhost:5000/login', {
+        const response = await axios.post('http://192.168.88.24:5000/login', {
           email: this.email,
           password: this.password,
         });

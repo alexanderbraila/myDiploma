@@ -81,7 +81,7 @@ export default {
       const token = localStorage.getItem('token');
       console.log('Sending token:', token);
       try {
-        const response = await axios.get('http://localhost:5000/profile', {
+        const response = await axios.get('http://192.168.88.24:5000/profile', {
           headers: { Authorization: `Bearer ${token}` },
         });
         const { username, email, height, weight, gender, goal, activity_level, age } = response.data;
@@ -102,7 +102,7 @@ export default {
     async updateProfile() {
       try {
         const response = await axios.put(
-          'http://localhost:5000/profile',
+          'http://192.168.88.24:5000/profile',
           {
             username: this.username,
             email: this.email,

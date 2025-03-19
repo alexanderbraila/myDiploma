@@ -142,7 +142,7 @@ export default {
     }
 
     console.log('Sending request with token:', token);
-    await axios.post('http://localhost:5000/bookings', {
+    await axios.post('http://192.168.88.24:5000/bookings', {
       name: this.bookingForm.name,
       phone: this.bookingForm.phone,
       email: this.bookingForm.email,
