@@ -109,7 +109,7 @@ export default {
     return;
   }
   try {
-    const response = await axios.get('http://192.168.88.24:5000/profile', {
+    const response = await axios.get('/api/profile', {
       headers: { Authorization: `Bearer ${token}` }, 
     });
     const { gender, goal } = response.data; 
@@ -132,7 +132,7 @@ export default {
     return;
   }
   try {
-    const response = await axios.get('http://192.168.88.24:5000/workouts', {
+    const response = await axios.get('/api/workouts', {
       headers: { Authorization: `Bearer ${token}` }, 
     });
     this.savedWorkouts = response.data.map(workout => ({
@@ -174,7 +174,7 @@ export default {
         this.showNewWorkout = true;
 
         await axios.post(
-  'http://192.168.88.24:5000/workouts',
+  '/api/workouts',
   { workout_data: this.workoutDescription },
   { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } } 
 );
@@ -203,7 +203,7 @@ export default {
       this.workoutDescription = '';
       this.showNewWorkout = false;
     } else {
-      await axios.delete(`http://192.168.88.24:5000/workouts/${workoutId}`, {
+      await axios.delete(`/api/workouts/${workoutId}`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       });
       

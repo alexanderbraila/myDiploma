@@ -124,7 +124,7 @@ export default {
     return;
   }
   try {
-    const response = await axios.get('http://192.168.88.24:5000/profile', {
+    const response = await axios.get('/api/profile', {
       headers: { Authorization: `Bearer ${token}` }, 
     });
     const { gender, activity_level, age, weight, height, goal } = response.data; 
@@ -151,7 +151,7 @@ export default {
     return;
   }
   try {
-    const response = await axios.get('http://192.168.88.24:5000/macros', {
+    const response = await axios.get('/api/macros', {
       headers: { Authorization: `Bearer ${token}` }, 
     });
     this.savedMacros = response.data.map(macro => ({
@@ -193,7 +193,7 @@ export default {
         this.showNewMacro = true;
 
         await axios.post(
-  'http://192.168.88.24:5000/macros',
+  '/api/macros',
   { macro_data: this.macroDescription },
   { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } } 
 );
@@ -222,7 +222,7 @@ export default {
       this.macroDescription = '';
       this.showNewMacro = false;
     } else {
-      await axios.delete(`http://192.168.88.24:5000/macros/${macroId}`, {
+      await axios.delete(`/api/macros/${macroId}`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       });
       
