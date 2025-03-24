@@ -6,9 +6,9 @@ body {
   padding: 0;
   height: 100%;
   width: 100%;
-  background: var(--bg-color, linear-gradient(135deg, #fce7ea, #e6f0fa)); /* Фallback для світлої теми */
+  background: var(--bg-color, linear-gradient(135deg, #fce7ea, #e6f0fa)); 
 }
 
 [data-theme="dark"] body {
-  background: var(--bg-color, linear-gradient(135deg, #2a1c2b, #1c252b)); /* Фallback для темної теми */
+  background: var(--bg-color, linear-gradient(135deg, #2a1c2b, #1c252b)); 
 }

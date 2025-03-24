@@ -58,6 +58,9 @@
 <script>
 import axios from 'axios';
 
+
+axios.defaults.baseURL = 'http://192.168.88.24:5000'; 
+
 export default {
   data() {
     return {
@@ -79,6 +82,12 @@ export default {
   methods: {
     async fetchProfile() {
       const token = localStorage.getItem('token');
+      if (!token) {
+        this.message = 'Токен відсутній. Увійдіть у систему.';
+        this.error = true;
+        this.$router.push('/login'); 
+        return;
+      }
       console.log('Sending token:', token);
       try {
         const response = await axios.get('/api/profile', {
@@ -97,9 +106,19 @@ export default {
         console.error('Ошибка в fetchProfile:', error.response?.data || error.message);
         this.message = error.response?.data || 'Помилка при отриманні даних профілю';
         this.error = true;
+        if (error.response?.status === 401) {
+          this.$router.push('/login'); 
+        }
       }
     },
     async updateProfile() {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        this.message = 'Токен відсутній. Увійдіть у систему.';
+        this.error = true;
+        this.$router.push('/login');
+        return;
+      }
       try {
         const response = await axios.put(
           '/api/profile',
@@ -114,14 +133,18 @@ export default {
             age: this.age,
           },
           {
-            headers: { Authorization: 'Bearer ${token}' },
+            headers: { Authorization: `Bearer ${token}` }, 
           }
         );
-        this.message = response.data;
+        this.message = response.data || 'Профіль успішно оновлено';
         this.error = false;
       } catch (error) {
-        this.message = error.response.data || 'Помилка при оновленні профілю';
+        console.error('Ошибка в updateProfile:', error.response?.data || error.message);
+        this.message = error.response?.data || 'Помилка при оновленні профілю';
         this.error = true;
+        if (error.response?.status === 401) {
+          this.$router.push('/login');
+        }
       }
     },
   },
