@@ -114,7 +114,7 @@ export default {
             age: this.age,
           },
           {
-            headers: { Authorization: localStorage.getItem('token') },
+            headers: { Authorization: 'Bearer ${token}' },
           }
         );
         this.message = response.data;
