@@ -1,7 +1,11 @@
 <template>
   <nav class="navbar">
     <div class="navbar-container">
-      <span class="navbar-brand">FitPlanner</span>
+      <!-- Блок логотипу -->
+      <div class="navbar-logo">
+        <img src="@/assets/images/FitPlanner.png" alt="FitPlanner" class="navbar-brand" />
+      </div>
+      <!-- Блок меню -->
       <div class="navbar-menu" :class="{ active: isMenuOpen }">
         <ul class="navbar-nav">
           <li class="nav-item">
@@ -20,20 +24,22 @@
             <router-link to="/profile" class="nav-link">Особистий кабінет</router-link>
           </li>
         </ul>
-        <div class="navbar-actions">
-          <button @click="toggleTheme" class="btn btn-theme" :class="{ 'dark-theme': currentTheme === 'dark' }">
-            <span class="theme-icon moon"></span>
-          </button>
-          <div v-if="!isAuthenticated" class="auth-buttons">
-            <router-link to="/register" class="btn btn-outline">Реєстрація</router-link>
-            <router-link to="/login" class="btn btn-primary">Вхід</router-link>
-          </div>
-          <div v-else class="user-info">
-            <span class="username">Вітаємо, {{ username }}</span>
-            <button @click="logout" class="btn btn-outline">Вийти</button>
-          </div>
+      </div>
+      <!-- Блок дій -->
+      <div class="navbar-actions">
+        <button @click="toggleTheme" class="btn btn-theme" :class="{ 'dark-theme': currentTheme === 'dark' }">
+          <span class="theme-icon moon"></span>
+        </button>
+        <div v-if="!isAuthenticated" class="auth-buttons">
+          <router-link to="/register" class="btn btn-outline">Реєстрація</router-link>
+          <router-link to="/login" class="btn btn-primary">Вхід</router-link>
+        </div>
+        <div v-else class="user-info">
+          <span class="username">Вітаємо, {{ username }}</span>
+          <button @click="logout" class="btn btn-outline">Вийти</button>
         </div>
       </div>
+      <!-- Кнопка для мобільного меню -->
       <button class="navbar-toggler" @click="toggleMenu" aria-label="Toggle navigation">
         <span class="toggler-icon"></span>
       </button>
@@ -98,8 +104,7 @@ export default {
   top: 20px;
   left: 50%;
   transform: translateX(-50%);
-  width: 100%;
-  max-width: 1300px;
+  width: fit-content; /* Адаптивна ширина */
   z-index: 1000;
   transition: all 0.6s ease-out;
   background: transparent;
@@ -113,108 +118,41 @@ export default {
 }
 
 .navbar-container {
-  max-width: 1300px;
-  margin: 0 auto;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  border-radius: 50px;
-  background: rgba(20, 20, 20, 0.8); /* Фіксований стиль як у темній темі */
+  justify-content: center;
+  gap: 1rem; /* Відступ між трьома блоками */
+}
+
+/* Блок логотипу */
+.navbar-logo {
+  background: rgba(20, 20, 20, 0.8);
   backdrop-filter: blur(10px);
+  border-radius: 50px;
   padding: 0.5rem 1rem;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  width: 100%;
-  transition: background 0.5s ease; /* Плавний перехід для стабільності */
-}
-
-.btn-theme {
-  background: transparent;
-  border: 1px solid #ffffff;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  padding: 0;
-  position: relative;
-  overflow: hidden;
-  transition: all 0.3s ease;
-}
-
-.btn-theme:hover {
-  background: #ff85a2;
-  border-color: #ff85a2;
-  transform: scale(1.1);
-}
-
-.btn-theme:active .theme-icon.moon {
-  transform: translate(-50%, -50%) rotate(180deg);
-}
-
-.btn-theme.dark-theme::after {
-  content: '';
-  position: absolute;
-  bottom: 5px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 0;
-  height: 2px;
-  background: #ff85a2;
-  transition: width 0.3s ease;
-}
-
-.btn-theme.dark-theme:hover::after {
-  width: 70%; /* Плавне розширення полоски */
-}
-
-.btn-theme span {
-  display: none;
-}
-
-.theme-icon.moon {
-  display: inline-block;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background: #ffffff;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  box-shadow: inset -10px 0 0 #000000;
-  transition: transform 0.6s ease-in-out, box-shadow 0.6s ease-in-out; /* Плавний перехід */
-}
-
-.btn-theme.dark-theme .theme-icon.moon {
-  transform: translate(-50%, -50%) rotate(360deg); /* Повний оберт */
-  box-shadow: inset 10px 0 0 #000000; /* Зміна тіні для темної теми */
 }
 
 .navbar-brand {
-  color: #ffffff;
-  font-weight: 700;
-  font-size: 1.5rem;
-  padding: 0.5rem;
-  background: rgba(255, 255, 255, 0.1);
+  height: 40px;
+  width: 150px;
+  padding: 0.5rem 0;
   border-radius: 25px;
-  margin-right: 0;
-  transition: none;
+  object-fit: contain;
 }
 
-.navbar-brand:hover {
-  color: #ffffff;
-}
-
+/* Блок меню */
 .navbar-menu {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
-  margin-left: 0;
+  gap: 0.5rem;
+  background: rgba(20, 20, 20, 0.8);
+  backdrop-filter: blur(10px);
+  border-radius: 50px;
+  padding: 0.5rem 1rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  flex-wrap: nowrap;
   transition: all 0.5s ease;
-}
-
-.navbar-actions {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
 }
 
 .navbar-nav {
@@ -224,6 +162,7 @@ export default {
   margin: 0;
   padding: 0;
   gap: 1rem;
+  flex-wrap: nowrap;
 }
 
 .nav-item {
@@ -239,6 +178,7 @@ export default {
   padding: 0.5rem 0.75rem;
   position: relative;
   transition: all 0.3s ease;
+  white-space: nowrap;
 }
 
 .nav-link:hover {
@@ -271,6 +211,19 @@ export default {
   background: #ff85a2;
 }
 
+/* Блок дій */
+.navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: rgba(20, 20, 20, 0.8);
+  backdrop-filter: blur(10px);
+  border-radius: 50px;
+  padding: 0.5rem 1rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  flex-wrap: nowrap;
+}
+
 .btn {
   padding: 0.5rem 1rem;
   border-radius: 25px;
@@ -280,6 +233,7 @@ export default {
   transition: all 0.3s ease;
   border: none;
   cursor: pointer;
+  white-space: nowrap;
 }
 
 .btn-outline {
@@ -306,16 +260,86 @@ export default {
   color: #ffffff;
 }
 
+.btn-theme {
+  background: transparent;
+  border: 1px solid #ffffff;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.btn-theme:hover {
+  background: #ff85a2;
+  border-color: #ff85a2;
+  transform: scale(1.1);
+}
+
+.btn-theme:active .theme-icon.moon {
+  transform: translate(-50%, -50%) rotate(180deg);
+}
+
+.btn-theme.dark-theme::after {
+  content: '';
+  position: absolute;
+  bottom: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 2px;
+  background: #ff85a2;
+  transition: width 0.3s ease;
+}
+
+.btn-theme.dark-theme:hover::after {
+  width: 70%;
+}
+
+.btn-theme span {
+  display: none;
+}
+
+.theme-icon.moon {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #ffffff;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: inset -10px 0 0 #000000;
+  transition: transform 0.6s ease-in-out, box-shadow 0.6s ease-in-out;
+}
+
+.btn-theme.dark-theme .theme-icon.moon {
+  transform: translate(-50%, -50%) rotate(360deg);
+  box-shadow: inset 10px 0 0 #000000;
+}
+
+.auth-buttons {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: nowrap;
+}
+
 .user-info {
   display: flex;
   align-items: center;
   gap: 1rem;
+  flex-wrap: nowrap;
 }
 
 .username {
   color: #ffffff;
   font-weight: 500;
   font-size: 0.9rem;
+  white-space: nowrap;
 }
 
 .navbar-toggler {
@@ -352,9 +376,26 @@ export default {
   bottom: -8px;
 }
 
+/* Мобільна версія */
 @media (max-width: 768px) {
+  .navbar {
+    left: 0;
+    transform: none;
+    margin: 0;
+    width: 100%;
+    padding: 0 0.5rem;
+  }
+
   .navbar-container {
-    padding: 0.5rem 1rem;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    gap: 0;
+  }
+
+  .navbar-logo {
+    border-radius: 50px;
+    padding: 0.5rem;
   }
 
   .navbar-menu {
@@ -364,7 +405,7 @@ export default {
     top: 100%;
     left: 0;
     width: 100%;
-    background: rgba(20, 20, 20, 0.8); /* Фіксований стиль для мобільної версії */
+    background: rgba(20, 20, 20, 0.8);
     backdrop-filter: blur(10px);
     padding: 1rem;
     border-radius: 0 0 20px 20px;
@@ -391,8 +432,14 @@ export default {
   }
 
   .navbar-actions {
+    border-radius: 50px;
+    padding: 0.5rem;
+    flex-direction: row;
+    gap: 1rem;
+  }
+
+  .auth-buttons {
     flex-direction: column;
-    width: 100%;
     gap: 1rem;
   }
 

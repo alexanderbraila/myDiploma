@@ -1,17 +1,16 @@
 <template>
   <div class="home">
-    <header class="hero">
+    <section class="content-section" ref="banner">
       <div class="banner">
         <h1>Хочеш на заняття?</h1>
         <button @click="openModal" class="btn btn-custom">Записатися</button>
       </div>
-    </header>
+    </section>
 
-    <section class="about-us section-animation">
+    <section class="content-section about-us" ref="about-us">
       <div class="section-content">
         <h2>Про нас</h2>
         <div class="about-content">
-          <img src="@/assets/images/f1.jpg" alt="Фітнес команда" class="section-parallax-image" />
           <div class="about-text-overlay">
             <p>Ми команда ентузіастів, які прагнуть зробити ваш шлях до здорового способу життя максимально зручним та ефективним. Наш планувальник тренувань допоможе вам створити персоналізовані програми, які відповідають вашим цілям і рівнем підготовки.</p>
           </div>
@@ -19,23 +18,24 @@
       </div>
     </section>
 
-    <section class="benefits section-animation">
+    <section class="content-section benefits" ref="benefits">
       <div class="section-content">
         <h2>Переваги</h2>
-        <div class="benefits-grid">
-          <div class="benefit-card" v-for="(benefit, index) in benefits" :key="index" :style="{ backgroundColor: getBenefitColor(index) }">
-            <h3>{{ benefit.title }}</h3>
-            <p>{{ benefit.description }}</p>
+        <div class="benefits-grid-wrapper">
+          <div class="benefits-grid">
+            <div class="benefit-card" v-for="(benefit, index) in benefits" :key="index" :style="{ backgroundColor: getBenefitColor(index) }">
+              <h3>{{ benefit.title }}</h3>
+              <p>{{ benefit.description }}</p>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="testimonials section-animation">
+    <section class="content-section testimonials" ref="testimonials">
       <div class="section-content">
         <h2>Відгуки</h2>
         <div class="testimonials-content">
-          <img src="@/assets/images/f3.png" alt="Користувач" class="testimonial-image" />
           <div class="testimonial-text">
             <div class="testimonial-card" v-for="(testimonial, index) in testimonials" :key="index">
               <p>{{ testimonial.text }}</p>
@@ -46,7 +46,7 @@
       </div>
     </section>
 
-    <section class="contact section-animation">
+    <section class="content-section contact" ref="contact">
       <div class="section-content">
         <h2>Контакти</h2>
         <div class="contact-card">
@@ -95,11 +95,13 @@ import axios from 'axios';
 export default {
   name: 'HomeView',
   mounted() {
-    this.addScrollAnimation();
+    this.setupScroll();
   },
   data() {
     return {
       isModalOpen: false,
+      currentSection: 0,
+      touchStartY: null,
       bookingForm: {
         name: '',
         phone: '',
@@ -161,29 +163,52 @@ export default {
         }
       }
     },
-    addScrollAnimation() {
-      const sections = document.querySelectorAll('.section-animation');
-      const observerOptions = {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.1,
-      };
+    setupScroll() {
+      const sectionHeight = window.innerHeight;
+      const totalSections = 5;
 
-      const observer = new IntersectionObserver((entries, observer) => {
-        entries.forEach((entry, index) => {
-          if (entry.isIntersecting) {
-            setTimeout(() => {
-              entry.target.classList.add('visible');
-            }, index * 300);
-            observer.unobserve(entry.target);
-          }
+      window.addEventListener('wheel', (event) => {
+        event.preventDefault();
+        const delta = event.deltaY > 0 ? 1 : -1;
+        this.currentSection = Math.max(0, Math.min(totalSections - 1, this.currentSection + delta));
+        window.scrollTo({
+          top: this.currentSection * sectionHeight,
+          behavior: 'smooth',
         });
-      }, observerOptions);
+        console.log(`Current section (wheel): ${this.currentSection}`);
+      }, { passive: false });
 
-      sections.forEach(section => observer.observe(section));
+      window.addEventListener('touchstart', (event) => {
+        this.touchStartY = event.touches[0].clientY;
+      }, { passive: true });
+
+      window.addEventListener('touchmove', (event) => {
+        if (this.touchStartY === null) return;
+        const touchY = event.touches[0].clientY;
+        const deltaY = this.touchStartY - touchY;
+        if (Math.abs(deltaY) > 50) {
+          const direction = deltaY > 0 ? 1 : -1;
+          this.currentSection = Math.max(0, Math.min(totalSections - 1, this.currentSection + direction));
+          window.scrollTo({
+            top: this.currentSection * sectionHeight,
+            behavior: 'smooth',
+          });
+          console.log(`Current section (touch): ${this.currentSection}`);
+          this.touchStartY = null;
+        }
+      }, { passive: false });
+
+      window.addEventListener('touchend', () => {
+        this.touchStartY = null;
+      }, { passive: true });
     },
     getBenefitColor(index) {
-      const colors = ['rgba(255, 133, 162, 0.2)', 'rgba(93, 143, 201, 0.2)', 'rgba(255, 215, 0, 0.2)', 'rgba(144, 238, 144, 0.2)'];
+      const colors = [
+        'rgba(255, 133, 162, 0.5)',
+        'rgba(93, 143, 201, 0.5)',
+        'rgba(255, 215, 0, 0.5)',
+        'rgba(144, 238, 144, 0.5)',
+      ];
       return colors[index % colors.length];
     },
   },
@@ -196,32 +221,60 @@ export default {
 }
 
 .home {
-  padding: 20px;
-  background: var(--bg-color);
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.hero {
-  background: url('@/assets/images/f2.jpg') no-repeat center center;
-  background-size: cover;
-  height: 600px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  padding: 0;
+  height: 500vh;
+  background: #ffffff;
   position: relative;
-  border-radius: 15px;
-  margin-bottom: 2rem;
-  box-shadow: 0 4px 15px var(--shadow-color);
-  animation: scaleBackground 10s ease infinite;
   overflow: hidden;
 }
 
-@keyframes scaleBackground {
-  0%, 100% { background-size: 100%; }
-  50% { background-size: 110%; }
+.content-section {
+  height: 100vh;
+  width: 100%;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+  transition: opacity 0.5s ease-out;
+}
+
+/* Пастельные цвета для каждого блока */
+.content-section:nth-child(1) {
+  top: 0;
+  background-color: #f8e1e9; /* Светлый розовый */
+}
+
+.content-section:nth-child(2) {
+  top: 100vh;
+  background-color: #e9d8f4; /* Лавандовый */
+}
+
+.content-section:nth-child(3) {
+  top: 200vh;
+  background-color: #d9c2e9; /* Пастельный фиолетовый */
+}
+
+.content-section:nth-child(4) {
+  top: 300vh;
+  background-color: #f4c7d9; /* Розово-персиковый */
+}
+
+.content-section:nth-child(5) {
+  top: 400vh;
+  background-color: #e6d1f2; /* Лёгкий сиреневый */
+}
+
+.section-content {
+  background: rgba(0, 0, 0, 0.8);
+  padding: 30px;
+  border-radius: 15px;
+  margin: 0 auto;
+  max-width: 1200px;
+  width: 90%;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  color: #ffffff;
+  overflow: hidden;
 }
 
 .banner {
@@ -230,14 +283,14 @@ export default {
   border-radius: 10px;
   text-align: center;
   color: white;
+  max-width: 600px;
+  width: 90%;
 }
 
 .banner h1 {
   font-size: 2.5rem;
   margin-bottom: 1rem;
   color: white;
-  opacity: 0;
-  animation: fadeInUp 0.8s ease-out 0.3s forwards;
 }
 
 .btn-custom {
@@ -249,143 +302,115 @@ export default {
   font-weight: 600;
   font-size: 1.2rem;
   transition: all 0.3s ease;
-  opacity: 0;
-  animation: fadeInUp 0.8s ease-out 0.6s forwards;
 }
 
 .btn-custom:hover {
   background-color: #e6e6e6;
   border-color: #e6e6e6;
   transform: translateY(-2px);
-  box-shadow: 0 4px 10px var(--shadow-color);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   color: #ff85a2;
 }
 
-.section-content {
-  background: var(--card-bg);
-  padding: 30px;
-  border-radius: 15px;
-  margin-bottom: 2rem;
-  box-shadow: 0 4px 15px var(--shadow-color);
-  position: relative;
-}
-
 h2 {
-  color: var(--text-color);
+  color: #ffffff;
   font-weight: 700;
   margin-bottom: 1rem;
-  animation: slideInLeft 0.5s ease-out;
 }
 
 p, li {
-  color: var(--text-color);
+  color: #ffffff;
   font-weight: 400;
 }
 
 .about-content {
-  position: relative;
-  height: 300px;
-  overflow: hidden;
-}
-
-.section-parallax-image {
-  width: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  object-fit: cover;
-  filter: brightness(0.7);
-  border-radius: 15px 15px 0 0;
-  animation: floatImage 4s ease-in-out infinite;
-}
-
-@keyframes floatImage {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-}
-
-.about-text-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.6);
-  padding: 30px;
-  border-radius: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
 }
 
-.about-text-overlay p {
-  color: white;
-  font-weight: 400;
+.about-text-overlay {
+  padding: 30px;
   text-align: center;
+  max-width: 600px;
 }
 
-.benefits-grid, .testimonials-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+.benefits-grid-wrapper {
+  width: 100%;
+  overflow: hidden;
+}
+
+.benefits-grid {
+  display: flex;
+  flex-wrap: nowrap;
   gap: 20px;
   margin-top: 20px;
+  width: max-content;
+  animation: scrollBenefits 15s linear infinite;
+}
+
+@keyframes scrollBenefits {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
 
 .benefit-card {
-  background: var(--card-bg);
+  background: rgba(255, 255, 255, 0.1);
   padding: 20px;
   border-radius: 10px;
+  min-width: 250px;
+  flex-shrink: 0;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.section-animation.visible .benefit-card {
-  animation: bounceIn 0.6s ease-out;
 }
 
 .benefit-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 6px 15px var(--shadow-color);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
 }
 
 .benefit-card h3 {
-  color: var(--text-color);
+  color: #ffffff;
   font-weight: 600;
   margin-bottom: 0.5rem;
 }
 
-.testimonials-content, .contact-content {
+.testimonials-content {
   display: flex;
-  gap: 20px;
-  align-items: center;
+  flex-direction: column;
+  justify-content: center;
 }
 
-.testimonial-image {
-  max-width: 150px;
-  opacity: 0.7;
-  border-radius: 10px;
-  box-shadow: 0 4px 15px var(--shadow-color);
-}
-
-.testimonial-text, .contact-text {
+.testimonial-text {
   flex-grow: 1;
 }
 
-.testimonial-card, .contact-card {
-  background: var(--card-bg);
+.testimonial-card {
+  background: rgba(255, 255, 255, 0.1);
   padding: 15px;
   border-radius: 10px;
   margin-bottom: 10px;
 }
 
-.testimonial-card p, .contact-card p {
-  color: var(--text-color);
+.testimonial-card p {
+  color: #ffffff;
   margin-bottom: 0.5rem;
 }
 
 .testimonial-card .author {
-  color: var(--success-color);
+  color: #00cc00;
   font-style: italic;
+}
+
+.contact-card {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 15px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.contact-card p {
+  color: #ffffff;
+  margin-bottom: 0.5rem;
 }
 
 .contact-card p:nth-child(2),
@@ -419,13 +444,14 @@ p, li {
 }
 
 .modal-content {
-  background: var(--card-bg);
+  background: rgba(0, 0, 0, 0.9);
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 0 4px 15px var(--shadow-color);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   width: 90%;
   max-width: 500px;
   animation: popIn 0.4s ease-out;
+  color: #ffffff;
 }
 
 @keyframes popIn {
@@ -435,7 +461,7 @@ p, li {
 }
 
 .modal-content h3 {
-  color: var(--text-color);
+  color: #ffffff;
   margin-bottom: 1rem;
   font-weight: 700;
 }
@@ -446,7 +472,7 @@ p, li {
 
 .form-group label {
   display: block;
-  color: var(--text-color);
+  color: #ffffff;
   margin-bottom: 0.5rem;
   font-weight: 600;
 }
@@ -454,13 +480,14 @@ p, li {
 .form-group input {
   width: 100%;
   padding: 8px;
-  border: 1px solid var(--border-color);
+  border: 1px solid #ffffff;
   border-radius: 8px;
-  background: var(--input-bg);
-  color: var(--text-color);
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
 }
 
-.btn-primary, .btn-secondary {
+.btn-primary,
+.btn-secondary {
   margin-right: 10px;
   padding: 10px 20px;
   border-radius: 8px;
@@ -469,58 +496,26 @@ p, li {
 }
 
 .btn-primary {
-  background: var(--button-bg);
-  border-color: var(--button-bg);
+  background: #ff85a2;
+  border-color: #ff85a2;
   color: white;
 }
 
 .btn-primary:hover {
-  background: var(--button-hover);
+  background: #e67592;
   transform: translateY(-2px);
-  box-shadow: 0 4px 10px var(--shadow-color);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .btn-secondary {
-  background: var(--card-bg);
-  border-color: var(--border-color);
-  color: var(--text-color);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: #ffffff;
+  color: #ffffff;
 }
 
 .btn-secondary:hover {
-  background: var(--input-bg);
+  background: rgba(255, 255, 255, 0.2);
   transform: translateY(-2px);
-  box-shadow: 0 4px 10px var(--shadow-color);
-}
-
-.section-animation {
-  opacity: 0;
-  transform: translateY(50px);
-  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-}
-
-.section-animation.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes slideInLeft {
-  from { transform: translateX(-20px); opacity: 0; }
-  to { transform: translateX(0); opacity: 1; }
-}
-
-@keyframes fadeInUp {
-  from { transform: translateY(20px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
-}
-
-@keyframes bounceIn {
-  0% { transform: scale(0.95); opacity: 0; }
-  50% { transform: scale(1.02); opacity: 1; }
-  100% { transform: scale(1); }
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 </style>
