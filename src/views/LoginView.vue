@@ -50,7 +50,7 @@ export default {
     async login() {
       try {
         console.log('Надсилання запиту на вхід...');
-        const response = await axios.post('/api/login', {
+        const response = await axios.post('http://93.170.78.64:5000/api/login', {
           email: this.email,
           password: this.password,
         });

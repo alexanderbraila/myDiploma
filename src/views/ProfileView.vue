@@ -57,9 +57,7 @@
 
 <script>
 import axios from 'axios';
-
-
-axios.defaults.baseURL = 'http://192.168.88.24:5000'; 
+ 
 
 export default {
   data() {
@@ -90,7 +88,7 @@ export default {
       }
       console.log('Sending token:', token);
       try {
-        const response = await axios.get('/api/profile', {
+        const response = await axios.get('http://93.170.78.64:5000/api/profile', {
           headers: { Authorization: `Bearer ${token}` },
         });
         const { username, email, height, weight, gender, goal, activity_level, age } = response.data;
@@ -121,7 +119,7 @@ export default {
       }
       try {
         const response = await axios.put(
-          '/api/profile',
+          'http://93.170.78.64:5000/api/profile',
           {
             username: this.username,
             email: this.email,

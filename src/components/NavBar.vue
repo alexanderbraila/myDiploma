@@ -1,50 +1,97 @@
 <template>
-  <nav class="navbar">
-    <div class="navbar-container">
-      <!-- Блок логотипу -->
-      <div class="navbar-logo">
-        <img src="@/assets/images/FitPlanner.png" alt="FitPlanner" class="navbar-brand" />
+  <div>
+    <!-- Десктопный навбар -->
+    <nav class="navbar desktop-navbar">
+      <div class="navbar-container">
+        <!-- Блок логотипу -->
+        <div class="navbar-logo">
+          <span class="navbar-brand">Fit Planner</span>
+        </div>
+        <!-- Блок меню -->
+        <div class="navbar-menu" :class="{ active: isMenuOpen }">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <router-link to="/" class="nav-link">Головна</router-link>
+            </li>
+            <li class="nav-item">
+              <router-link to="/create-workout" class="nav-link">Створити тренування</router-link>
+            </li>
+            <li class="nav-item">
+              <router-link to="/gym-finder" class="nav-link">Найближчий зал</router-link>
+            </li>
+            <li class="nav-item">
+              <router-link to="/macro-calculator" class="nav-link">Калькулятор БЖВ</router-link>
+            </li>
+            <li class="nav-item" v-if="isAuthenticated">
+              <router-link to="/profile" class="nav-link">Особистий кабінет</router-link>
+            </li>
+          </ul>
+        </div>
+        <!-- Блок дій -->
+        <div class="navbar-actions">
+          <button @click="toggleTheme" class="btn btn-theme" :class="{ 'dark-theme': currentTheme === 'dark' }">
+            <span class="theme-icon moon"></span>
+          </button>
+          <div v-if="!isAuthenticated" class="auth-buttons">
+            <router-link to="/register" class="btn btn-outline">Реєстрація</router-link>
+            <router-link to="/login" class="btn btn-primary">Вхід</router-link>
+          </div>
+          <div v-else class="user-info">
+            <span class="username">Вітаємо, {{ username }}</span>
+            <button @click="logout" class="btn btn-outline">Вийти</button>
+          </div>
+        </div>
+        <!-- Кнопка для мобільного меню (не используется в десктопе) -->
+        <button class="navbar-toggler" @click="toggleMenu" aria-label="Toggle navigation">
+          <span class="toggler-icon"></span>
+        </button>
       </div>
-      <!-- Блок меню -->
-      <div class="navbar-menu" :class="{ active: isMenuOpen }">
-        <ul class="navbar-nav">
+    </nav>
+
+    <!-- Мобільний навбар -->
+    <nav class="navbar mobile-navbar">
+      <div class="mobile-navbar-container">
+        <div class="navbar-logo">
+          <span class="navbar-brand">Pulse AI</span>
+        </div>
+        <button class="navbar-toggler" @click="toggleMenu" aria-label="Toggle navigation">
+          <span class="toggler-icon"></span>
+        </button>
+      </div>
+      <div class="mobile-menu" :class="{ active: isMenuOpen }">
+        <ul class="mobile-nav">
           <li class="nav-item">
-            <router-link to="/" class="nav-link">Головна</router-link>
+            <router-link to="/" class="nav-link" @click="toggleMenu">Головна</router-link>
           </li>
           <li class="nav-item">
-            <router-link to="/create-workout" class="nav-link">Створити тренування</router-link>
+            <router-link to="/create-workout" class="nav-link" @click="toggleMenu">Створити тренування</router-link>
           </li>
           <li class="nav-item">
-            <router-link to="/gym-finder" class="nav-link">Найближчий зал</router-link>
+            <router-link to="/gym-finder" class="nav-link" @click="toggleMenu">Найближчий зал</router-link>
           </li>
           <li class="nav-item">
-            <router-link to="/macro-calculator" class="nav-link">Калькулятор БЖВ</router-link>
+            <router-link to="/macro-calculator" class="nav-link" @click="toggleMenu">Калькулятор БЖВ</router-link>
           </li>
           <li class="nav-item" v-if="isAuthenticated">
-            <router-link to="/profile" class="nav-link">Особистий кабінет</router-link>
+            <router-link to="/profile" class="nav-link" @click="toggleMenu">Особистий кабінет</router-link>
           </li>
         </ul>
-      </div>
-      <!-- Блок дій -->
-      <div class="navbar-actions">
-        <button @click="toggleTheme" class="btn btn-theme" :class="{ 'dark-theme': currentTheme === 'dark' }">
-          <span class="theme-icon moon"></span>
-        </button>
-        <div v-if="!isAuthenticated" class="auth-buttons">
-          <router-link to="/register" class="btn btn-outline">Реєстрація</router-link>
-          <router-link to="/login" class="btn btn-primary">Вхід</router-link>
+        <div class="mobile-actions">
+          <button @click="toggleTheme" class="btn btn-theme" :class="{ 'dark-theme': currentTheme === 'dark' }">
+            <span class="theme-icon moon"></span>
+          </button>
+          <div v-if="!isAuthenticated" class="auth-buttons">
+            <router-link to="/register" class="btn btn-outline" @click="toggleMenu">Реєстрація</router-link>
+            <router-link to="/login" class="btn btn-primary" @click="toggleMenu">Вхід</router-link>
+          </div>
+          <div v-else class="user-info">
+            <span class="username">Вітаємо, {{ username }}</span>
+            <button @click="logout" class="btn btn-outline">Вийти</button>
+          </div>
         </div>
-        <div v-else class="user-info">
-          <span class="username">Вітаємо, {{ username }}</span>
-          <button @click="logout" class="btn btn-outline">Вийти</button>
-        </div>
       </div>
-      <!-- Кнопка для мобільного меню -->
-      <button class="navbar-toggler" @click="toggleMenu" aria-label="Toggle navigation">
-        <span class="toggler-icon"></span>
-      </button>
-    </div>
-  </nav>
+    </nav>
+  </div>
 </template>
 
 <script>
@@ -71,7 +118,7 @@ export default {
     this.scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
     document.body.style.paddingRight = `${this.scrollbarWidth}px`;
     this.$nextTick(() => {
-      this.$el.classList.add('visible');
+      this.$el.querySelector('.desktop-navbar').classList.add('visible');
     });
   },
   methods: {
@@ -99,12 +146,13 @@ export default {
   font-family: 'Inter', sans-serif;
 }
 
-.navbar {
+/* Десктопный навбар */
+.desktop-navbar {
   position: fixed;
   top: 20px;
   left: 50%;
   transform: translateX(-50%);
-  width: fit-content; /* Адаптивна ширина */
+  width: fit-content;
   z-index: 1000;
   transition: all 0.6s ease-out;
   background: transparent;
@@ -112,7 +160,7 @@ export default {
   transform: translate(-50%, -100px);
 }
 
-.navbar.visible {
+.desktop-navbar.visible {
   opacity: 1;
   transform: translate(-50%, 0);
 }
@@ -121,43 +169,55 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 1rem; /* Відступ між трьома блоками */
+  gap: 1rem;
 }
 
-/* Блок логотипу */
-.navbar-logo {
+.navbar-logo,
+.navbar-menu,
+.navbar-actions {
   background: rgba(20, 20, 20, 0.8);
   backdrop-filter: blur(10px);
   border-radius: 50px;
   padding: 0.5rem 1rem;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50px;
 }
 
 .navbar-brand {
-  height: 40px;
-  width: 150px;
-  padding: 0.5rem 0;
-  border-radius: 25px;
-  object-fit: contain;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ff85a2;
+  /* text-transform: uppercase; */
+  letter-spacing: 2px;
+  background: linear-gradient(90deg, #ff85a2, #ffffff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 2px 4px rgba(255, 133, 162, 0.3);
+  transition: transform 0.3s ease;
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  line-height: 1;
+  user-select: none;
 }
 
-/* Блок меню */
+.navbar-brand:hover {
+  transform: scale(1.05);
+}
+
 .navbar-menu {
-  display: flex;
-  align-items: center;
   gap: 0.5rem;
-  background: rgba(20, 20, 20, 0.8);
-  backdrop-filter: blur(10px);
-  border-radius: 50px;
-  padding: 0.5rem 1rem;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   flex-wrap: nowrap;
   transition: all 0.5s ease;
 }
 
 .navbar-nav {
-  display: flex !important;
-  flex-direction: row !important;
+  display: flex;
+  flex-direction: row;
   list-style: none;
   margin: 0;
   padding: 0;
@@ -211,16 +271,8 @@ export default {
   background: #ff85a2;
 }
 
-/* Блок дій */
 .navbar-actions {
-  display: flex;
-  align-items: center;
   gap: 1rem;
-  background: rgba(20, 20, 20, 0.8);
-  backdrop-filter: blur(10px);
-  border-radius: 50px;
-  padding: 0.5rem 1rem;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   flex-wrap: nowrap;
 }
 
@@ -299,10 +351,6 @@ export default {
   width: 70%;
 }
 
-.btn-theme span {
-  display: none;
-}
-
 .theme-icon.moon {
   display: inline-block;
   width: 24px;
@@ -376,94 +424,135 @@ export default {
   bottom: -8px;
 }
 
-/* Мобільна версія */
+/* Мобільний навбар */
+.mobile-navbar {
+  display: none; /* Скрыт по умолчанию */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background: rgba(20, 20, 20, 0.8);
+  backdrop-filter: blur(10px);
+  padding: 0.5rem;
+}
+
+.mobile-navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.mobile-menu {
+  display: none;
+  flex-direction: column;
+  position: fixed;
+  top: 40px; /* Высота мобильного навбара */
+  left: 0;
+  width: 100%;
+  background: rgba(20, 20, 20, 0.9);
+  padding: 1rem;
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  opacity: 0;
+}
+
+.mobile-menu.active {
+  display: flex;
+  transform: scaleY(1);
+  opacity: 1;
+}
+
+.mobile-nav {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.mobile-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.mobile-navbar .navbar-logo {
+  padding: 0.5rem;
+  min-height: 40px;
+  border-radius: 50px;
+}
+
+.mobile-navbar .navbar-brand {
+  font-size: 1.2rem;
+}
+
+.mobile-navbar .navbar-toggler {
+  display: block;
+}
+
+.mobile-navbar .toggler-icon {
+  display: block;
+  width: 25px;
+  height: 3px;
+  background: #ffffff;
+  position: relative;
+}
+
+.mobile-navbar .toggler-icon::before,
+.mobile-navbar .toggler-icon::after {
+  content: '';
+  position: absolute;
+  width: 25px;
+  height: 3px;
+  background: #ffffff;
+  transition: all 0.3s ease;
+}
+
+.mobile-navbar .toggler-icon::before {
+  top: -8px;
+}
+
+.mobile-navbar .toggler-icon::after {
+  bottom: -8px;
+}
+
+.mobile-navbar .navbar-toggler.active .toggler-icon {
+  background: transparent;
+}
+
+.mobile-navbar .navbar-toggler.active .toggler-icon::before {
+  transform: rotate(45deg);
+  top: 0;
+}
+
+.mobile-navbar .navbar-toggler.active .toggler-icon::after {
+  transform: rotate(-45deg);
+  bottom: 0;
+}
+
+/* Медиа-запросы для переключения видимости */
 @media (max-width: 768px) {
-  .navbar {
-    left: 0;
-    transform: none;
-    margin: 0;
-    width: 100%;
-    padding: 0 0.5rem;
+  .desktop-navbar {
+    display: none; /* Скрываем десктопный навбар */
   }
-
-  .navbar-container {
-    flex-direction: row;
-    justify-content: space-between;
-    width: 100%;
-    gap: 0;
+  .mobile-navbar {
+    display: block; /* Показываем мобильный навбар */
   }
+}
 
-  .navbar-logo {
-    border-radius: 50px;
-    padding: 0.5rem;
+@media (min-width: 769px) {
+  .mobile-navbar {
+    display: none; /* Скрываем мобильный навбар */
   }
-
-  .navbar-menu {
-    display: none;
-    flex-direction: column;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    background: rgba(20, 20, 20, 0.8);
-    backdrop-filter: blur(10px);
-    padding: 1rem;
-    border-radius: 0 0 20px 20px;
-    transform: scaleY(0);
-    transform-origin: top;
-    opacity: 0;
-  }
-
-  .navbar-menu.active {
-    display: flex;
-    transform: scaleY(1);
-    opacity: 1;
-    transition: transform 0.5s ease, opacity 0.3s ease;
-  }
-
-  .navbar-nav {
-    flex-direction: column !important;
-    gap: 1rem;
-    width: 100%;
-  }
-
-  .nav-item {
-    display: block;
-  }
-
-  .navbar-actions {
-    border-radius: 50px;
-    padding: 0.5rem;
-    flex-direction: row;
-    gap: 1rem;
-  }
-
-  .auth-buttons {
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  .user-info {
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  .navbar-toggler {
-    display: block;
-  }
-
-  .navbar-toggler.active .toggler-icon {
-    background: transparent;
-  }
-
-  .navbar-toggler.active .toggler-icon::before {
-    transform: rotate(45deg);
-    top: 0;
-  }
-
-  .navbar-toggler.active .toggler-icon::after {
-    transform: rotate(-45deg);
-    bottom: 0;
+  .desktop-navbar {
+    display: block; /* Показываем десктопный навбар */
   }
 }
 </style>
