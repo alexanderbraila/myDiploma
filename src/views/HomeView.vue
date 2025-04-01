@@ -56,13 +56,19 @@
     <section class="content-section testimonials">
       <div class="section-content">
         <h2>Відгуки</h2>
-        <div class="testimonials-content">
-          <div class="testimonial-text">
+        <div class="testimonials-carousel">
+          <div class="carousel-wrapper" ref="carousel">
             <div class="testimonial-card" v-for="(testimonial, index) in testimonials" :key="index">
+              <div class="testimonial-avatar"></div>
               <p>{{ testimonial.text }}</p>
               <span class="author">- {{ testimonial.author }}</span>
+              <div class="rating">
+                <span v-for="star in 5" :key="star" :class="{ 'filled': star <= testimonial.rating }">★</span>
+              </div>
             </div>
           </div>
+          <button class="carousel-prev" @click="scrollCarousel(-1)">❮</button>
+          <button class="carousel-next" @click="scrollCarousel(1)">❯</button>
         </div>
       </div>
     </section>
@@ -72,9 +78,10 @@
       <div class="section-content">
         <h2>Контакти</h2>
         <div class="contact-card">
-          <p>Дипломна робота студента KI-21-2</p>
-          <p>Браіла О.</p>
-          <p>Пошта: brailaalex@icloud.com</p>
+          <div class="contact-icon"></div>
+          <p class="contact-title">Дипломна робота студента KI-21-2</p>
+          <p class="contact-name">Браіла О.</p>
+          <p class="contact-email">Пошта: <a href="mailto:brailaalex@icloud.com">brailaalex@icloud.com</a></p>
         </div>
       </div>
     </section>
@@ -153,8 +160,13 @@ export default {
         { title: 'Мотивація', description: 'Отримуйте нагадування та мотиваційні повідомлення.' },
       ],
       testimonials: [
-        { text: 'За допомогою FitPlanner я досяг своїх цілей швидше, ніж очікував!', author: 'Іван І.' },
-        { text: 'Чудовий сервіс для тих, хто хоче займатися вдома!', author: 'Марія К.' },
+        { text: 'За допомогою FitPlanner я досяг своїх цілей швидше, ніж очікував!', author: 'Іван І.', rating: 5 },
+        { text: 'Чудовий сервіс для тих, хто хоче займатися вдома!', author: 'Марія К.', rating: 4 },
+        { text: 'Простий і зручний додаток, рекомендую всім!', author: 'Олег П.', rating: 5 },
+        { text: 'Тренування стали частиною мого життя завдяки FitPlanner!', author: 'Анна С.', rating: 4 },
+        { text: 'Дуже зручно планувати заняття, все інтуїтивно зрозуміло.', author: 'Дмитро В.', rating: 5 },
+        { text: 'Мотивуючі поради від тренерів — це те, що мені потрібно!', author: 'Юлія М.', rating: 4 },
+        { text: 'FitPlanner допоміг мені схуднути без стресу.', author: 'Олена Т.', rating: 5 },
       ],
     };
   },
@@ -198,8 +210,8 @@ export default {
     benefitsItems.forEach((item) => {
       ScrollTrigger.create({
         trigger: item,
-        start: 'top center', // Начало подсветки, когда верх элемента достигает центра экрана
-        end: 'bottom center', // Конец подсветки, когда низ элемента уходит из центра
+        start: 'top center',
+        end: 'bottom center',
         onEnter: () => {
           gsap.to(benefitsItems, { opacity: 0.2, duration: 0.3 });
           gsap.to(item, { opacity: 1, duration: 0.3 });
@@ -256,6 +268,11 @@ export default {
     },
     selectBenefit(index) {
       this.selectedBenefit = index;
+    },
+    scrollCarousel(direction) {
+      const carousel = this.$refs.carousel;
+      const scrollAmount = carousel.offsetWidth * 0.8;
+      carousel.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
     },
   },
 };
@@ -444,7 +461,7 @@ export default {
 
 /* Стили для третьей секции (Benefits) */
 .benefits {
-  min-height: 200vh; /* Увеличена высота для прокрутки */
+  min-height: 200vh;
   padding-left: 5rem;
   background: linear-gradient(45deg, #2a3b8f, #8b3a8f, #ff85a2);
 }
@@ -471,7 +488,7 @@ export default {
 
 .benefits-title {
   position: sticky;
-  top: calc(50% - 0.5lh); /* Фиксация в центре экрана */
+  top: calc(50% - 0.5lh);
   font-weight: 600;
   color: white;
   margin: 3rem 0;
@@ -490,7 +507,7 @@ export default {
 }
 
 .benefits-list li {
-  margin: 2rem 0; /* Увеличен отступ для соответствия большому шрифту */
+  margin: 2rem 0;
   font-size: 6rem;
   --start: 0;
   --end: 360;
@@ -500,71 +517,225 @@ export default {
   color: oklch(var(--lightness) var(--base-chroma) calc(var(--start) + (var(--step) * var(--i))));
 }
 
-/* Стили для остальных секций */
+/* Стили для секции "Відгуки" */
 .testimonials {
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #f4c7d9;
-}
-
-.contact {
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #e6d1f2;
+  background-color: #2b2b2b;
 }
 
 .section-content {
   padding: 30px;
   width: 100%;
-  color: #ffffff;
+  color: #d3d3d3;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.testimonials-content {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+.section-content h2 {
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  font-weight: 700;
+  color: #ffffff;
 }
 
-.testimonial-text {
-  flex-grow: 1;
+.testimonials-carousel {
+  position: relative;
+  width: 100%;
+  max-width: 1000px;
+  padding: 0 60px;
+  overflow: hidden;
+}
+
+.carousel-wrapper {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  gap: 20px;
+  padding: 20px 0;
+  width: 100%;
+  scrollbar-width: none;
+}
+
+.carousel-wrapper::-webkit-scrollbar {
+  display: none;
 }
 
 .testimonial-card {
-  background: rgba(255, 255, 255, 0.1);
-  padding: 15px;
-  border-radius: 10px;
-  margin-bottom: 10px;
+  flex: 0 0 300px;
+  background: #3a3a3a;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  scroll-snap-align: center;
+  transition: transform 0.3s ease;
+  border: 1px solid #4a4a4a;
+}
+
+.testimonial-card:hover {
+  transform: scale(1.05);
+}
+
+.testimonial-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: #555555;
+  margin: 0 auto 15px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.testimonial-avatar::before {
+  content: '';
+  width: 40px;
+  height: 40px;
+  background: radial-gradient(circle, #d3d3d3 10%, transparent 10%), 
+              radial-gradient(circle at 50% 70%, #d3d3d3 20%, transparent 20%);
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .testimonial-card p {
-  color: #ffffff;
-  margin-bottom: 0.5rem;
+  color: #d3d3d3;
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+  text-align: center;
 }
 
 .testimonial-card .author {
   color: #00cc00;
   font-style: italic;
-}
-
-.contact-card {
-  background: rgba(255, 255, 255, 0.1);
-  padding: 15px;
-  border-radius: 10px;
+  font-size: 1rem;
+  display: block;
   text-align: center;
 }
 
-.contact-card p {
-  color: #ffffff;
-  margin-bottom: 0.5rem;
+.rating {
+  margin-top: 10px;
+  text-align: center;
 }
 
+.rating span {
+  font-size: 1.2rem;
+  color: #666666;
+}
+
+.rating .filled {
+  color: #ffd700;
+}
+
+.carousel-prev,
+.carousel-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 1.5rem;
+  color: #d3d3d3;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  z-index: 10;
+}
+
+.carousel-prev {
+  left: 10px;
+}
+
+.carousel-next {
+  right: 10px;
+}
+
+.carousel-prev:hover,
+.carousel-next:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Стили для секции "Контакти" */
+.contact {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #1f1f1f; /* Темный фон секции */
+}
+
+.contact .section-content {
+  padding: 30px;
+  width: 100%;
+  color: #d3d3d3; /* Светло-серый текст */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.contact .section-content h2 {
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  font-weight: 700;
+  color: #ffffff; /* Белый цвет заголовка для читаемости */
+}
+
+.contact-card {
+  background: #2a2a2a; /* Темно-серый фон карточки */
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4); /* Более глубокая тень */
+  text-align: center;
+  max-width: 400px;
+  width: 100%;
+  border: 1px solid #3a3a3a; /* Темная рамка */
+  position: relative;
+}
+
+.contact-icon {
+  width: 50px;
+  height: 50px;
+  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23d3d3d3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>') no-repeat center;
+  margin: 0 auto 20px;
+}
+
+.contact-title {
+  color: #d3d3d3;
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.contact-name {
+  color: #ffffff; /* Белый для имени */
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.contact-email {
+  color: #d3d3d3;
+  font-size: 1.1rem;
+}
+
+.contact-email a {
+  color: #00cc00; /* Зеленый для ссылки */
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.contact-email a:hover {
+  color: #00ff00; /* Светлее при наведении */
+}
+
+/* Стили для футера */
 .footer {
   background: v-bind('currentTheme === "light" ? "linear-gradient(90deg, #ff85a2, #5d8fc9, #4a5d8f)" : "linear-gradient(90deg, #8b3a5e, #3a5e8b)"');
   color: white;
@@ -573,6 +744,7 @@ export default {
   text-align: center;
 }
 
+/* Стили для модального окна */
 .modal-overlay {
   position: fixed;
   top: 0;
