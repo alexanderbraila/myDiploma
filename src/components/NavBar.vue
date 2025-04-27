@@ -51,14 +51,11 @@
     <!-- Мобільний навбар -->
     <nav class="navbar mobile-navbar">
       <div class="mobile-navbar-container">
-        <div class="navbar-logo">
-          <span class="navbar-brand">Pulse AI</span>
-        </div>
-        <button class="navbar-toggler" @click="toggleMenu" aria-label="Toggle navigation">
-          <span class="toggler-icon"></span>
+        <button class="navbar-brand" @click="toggleMenu" aria-label="Toggle navigation">
+           Fit Planner
         </button>
       </div>
-      <div class="mobile-menu" :class="{ active: isMenuOpen }">
+      <div class="mobile-menu" :class="{ active: isMenuOpen }" @click="handleOutsideClick">
         <ul class="mobile-nav">
           <li class="nav-item">
             <router-link to="/" class="nav-link" @click="toggleMenu">Головна</router-link>
@@ -137,6 +134,12 @@ export default {
     toggleMenu() {
       this.isMenuOpen = !this.isMenuOpen;
     },
+    handleOutsideClick(event) {
+      // Закрываем меню, если клик был вне элементов меню
+      if (!event.target.closest('.mobile-nav, .mobile-actions, .navbar-brand')) {
+        this.isMenuOpen = false;
+      }
+    },
   },
 };
 </script>
@@ -154,10 +157,10 @@ export default {
   transform: translateX(-50%);
   width: fit-content;
   z-index: 1000;
-  transition: all 0.6s ease-out;
   background: transparent;
   opacity: 0;
   transform: translate(-50%, -100px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
 }
 
 .desktop-navbar.visible {
@@ -190,19 +193,16 @@ export default {
   font-size: 1.5rem;
   font-weight: 700;
   color: #ff85a2;
-  /* text-transform: uppercase; */
   letter-spacing: 2px;
   background: linear-gradient(90deg, #ff85a2, #ffffff);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
   text-shadow: 0 2px 4px rgba(255, 133, 162, 0.3);
-  transition: transform 0.3s ease;
-  display: inline-block;
-  margin: 0;
   padding: 0;
   line-height: 1;
   user-select: none;
+  margin: 0;
 }
 
 .navbar-brand:hover {
@@ -211,18 +211,13 @@ export default {
 
 .navbar-menu {
   gap: 0.5rem;
-  flex-wrap: nowrap;
-  transition: all 0.5s ease;
 }
 
 .navbar-nav {
   display: flex;
   flex-direction: row;
   list-style: none;
-  margin: 0;
-  padding: 0;
   gap: 1rem;
-  flex-wrap: nowrap;
 }
 
 .nav-item {
@@ -237,7 +232,7 @@ export default {
   text-decoration: none;
   padding: 0.5rem 0.75rem;
   position: relative;
-  transition: all 0.3s ease;
+  transition: color 0.3s ease;
   white-space: nowrap;
 }
 
@@ -273,7 +268,6 @@ export default {
 
 .navbar-actions {
   gap: 1rem;
-  flex-wrap: nowrap;
 }
 
 .btn {
@@ -282,7 +276,6 @@ export default {
   font-weight: 500;
   font-size: 0.9rem;
   text-decoration: none;
-  transition: all 0.3s ease;
   border: none;
   cursor: pointer;
   white-space: nowrap;
@@ -321,7 +314,7 @@ export default {
   padding: 0;
   position: relative;
   overflow: hidden;
-  transition: all 0.3s ease;
+  transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
   flex-shrink: 0;
 }
 
@@ -329,26 +322,6 @@ export default {
   background: #ff85a2;
   border-color: #ff85a2;
   transform: scale(1.1);
-}
-
-.btn-theme:active .theme-icon.moon {
-  transform: translate(-50%, -50%) rotate(180deg);
-}
-
-.btn-theme.dark-theme::after {
-  content: '';
-  position: absolute;
-  bottom: 5px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 0;
-  height: 2px;
-  background: #ff85a2;
-  transition: width 0.3s ease;
-}
-
-.btn-theme.dark-theme:hover::after {
-  width: 70%;
 }
 
 .theme-icon.moon {
@@ -373,107 +346,132 @@ export default {
 .auth-buttons {
   display: flex;
   gap: 1rem;
-  flex-wrap: nowrap;
 }
 
 .user-info {
   display: flex;
   align-items: center;
   gap: 1rem;
-  flex-wrap: nowrap;
-}
-
-.username {
-  color: #ffffff;
-  font-weight: 500;
-  font-size: 0.9rem;
-  white-space: nowrap;
-}
-
-.navbar-toggler {
-  display: none;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0.5rem;
-}
-
-.toggler-icon {
-  display: block;
-  width: 25px;
-  height: 3px;
-  background: #ffffff;
-  position: relative;
-}
-
-.toggler-icon::before,
-.toggler-icon::after {
-  content: '';
-  position: absolute;
-  width: 25px;
-  height: 3px;
-  background: #ffffff;
-  transition: all 0.3s ease;
-}
-
-.toggler-icon::before {
-  top: -8px;
-}
-
-.toggler-icon::after {
-  bottom: -8px;
 }
 
 /* Мобільний навбар */
 .mobile-navbar {
-  display: none; /* Скрыт по умолчанию */
+  display: none;
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   z-index: 1000;
-  background: rgba(20, 20, 20, 0.8);
-  backdrop-filter: blur(10px);
-  padding: 0.5rem;
+  background: transparent;
+  height: 57px;
 }
 
 .mobile-navbar-container {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.mobile-navbar .navbar-brand {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ff85a2;
+  letter-spacing: 2px;
+  background: linear-gradient(90deg, #ff85a2, #ffffff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  text-shadow: 0 2px 4px rgba(255, 133, 162, 0.3);
+  padding: 0.5rem 1rem;
+  border: 1px solid rgba(255, 133, 162, 0.5);
+  border-radius: 25px;
+  animation: pulse 2s infinite ease-in-out;
+  transition: transform 0.3s ease, border-radius 0.3s ease, background 0.3s ease;
+  line-height: 1;
+  user-select: none;
+  cursor: pointer;
+  background: none;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(255, 133, 162, 0.5);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 10px 5px rgba(255, 133, 162, 0.3);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(255, 133, 162, 0.5);
+  }
+}
+
+.mobile-menu.active .navbar-brand {
+  transform: translateX(-4rem);
+  border-radius: 15px;
+  background: rgba(20, 20, 20, 0.9);
 }
 
 .mobile-menu {
-  display: none;
-  flex-direction: column;
   position: fixed;
-  top: 40px; /* Высота мобильного навбара */
+  top: 57px;
   left: 0;
   width: 100%;
+  display: flex;
   background: rgba(20, 20, 20, 0.9);
+  backdrop-filter: blur(10px);
   padding: 1rem;
-  max-height: calc(100vh - 40px);
+  max-height: calc(100dvh - 60px);
   overflow-y: auto;
   transform: scaleY(0);
   transform-origin: top;
   transition: transform 0.3s ease, opacity 0.3s ease;
   opacity: 0;
+  border-radius: 2rem;
 }
 
 .mobile-menu.active {
   display: flex;
   transform: scaleY(1);
   opacity: 1;
+  border-radius: 2rem;
 }
 
 .mobile-nav {
   list-style: none;
-  margin: 0;
-  padding: 0;
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.mobile-menu.active .mobile-nav {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.mobile-nav .nav-item {
+  margin: 0.5rem 0;
+}
+
+.mobile-nav .nav-link {
+  color: #ffffff;
+  font-weight: 500;
+  font-size: 1rem;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  display: block;
+  transition: color 0.3s ease;
+}
+
+.mobile-nav .nav-link:hover {
+  color: #ff85a2;
 }
 
 .mobile-actions {
@@ -481,78 +479,42 @@ export default {
   flex-direction: column;
   gap: 1rem;
   margin-top: 1rem;
+  padding: 0 0 0 1rem;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.4s ease 0.1s, transform 0.4s ease 0.1s;
 }
 
-.mobile-navbar .navbar-logo {
-  padding: 0.5rem;
-  min-height: 40px;
-  border-radius: 50px;
+.mobile-menu.active .mobile-actions {
+  opacity: 1;
+  transform: translateY(0);
 }
 
-.mobile-navbar .navbar-brand {
-  font-size: 1.2rem;
-}
-
-.mobile-navbar .navbar-toggler {
-  display: block;
-}
-
-.mobile-navbar .toggler-icon {
-  display: block;
-  width: 25px;
-  height: 3px;
-  background: #ffffff;
-  position: relative;
-}
-
-.mobile-navbar .toggler-icon::before,
-.mobile-navbar .toggler-icon::after {
-  content: '';
-  position: absolute;
-  width: 25px;
-  height: 3px;
-  background: #ffffff;
-  transition: all 0.3s ease;
-}
-
-.mobile-navbar .toggler-icon::before {
-  top: -8px;
-}
-
-.mobile-navbar .toggler-icon::after {
-  bottom: -8px;
-}
-
-.mobile-navbar .navbar-toggler.active .toggler-icon {
-  background: transparent;
-}
-
-.mobile-navbar .navbar-toggler.active .toggler-icon::before {
-  transform: rotate(45deg);
-  top: 0;
-}
-
-.mobile-navbar .navbar-toggler.active .toggler-icon::after {
-  transform: rotate(-45deg);
-  bottom: 0;
+/* Класс для добавления отступа для контента страницы */
+.content-with-navbar {
+  padding-top: 57px; /* Высота навбара, чтобы контент не заходил под него */
 }
 
 /* Медиа-запросы для переключения видимости */
 @media (max-width: 768px) {
   .desktop-navbar {
-    display: none; /* Скрываем десктопный навбар */
+    display: none;
   }
   .mobile-navbar {
-    display: block; /* Показываем мобильный навбар */
+    display: block;
+  }
+
+  .auth-buttons{
+    flex-direction: column;
   }
 }
 
 @media (min-width: 769px) {
   .mobile-navbar {
-    display: none; /* Скрываем мобильный навбар */
+    display: none;
   }
   .desktop-navbar {
-    display: block; /* Показываем десктопный навбар */
+    display: block;
   }
 }
 </style>

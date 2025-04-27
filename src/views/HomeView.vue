@@ -66,7 +66,8 @@
                 <span v-for="star in 5" :key="star" :class="{ 'filled': star <= testimonial.rating }">★</span>
               </div>
             </div>
-          </div>
+          клуб
+            </div>
           <button class="carousel-prev" @click="scrollCarousel(-1)">❮</button>
           <button class="carousel-next" @click="scrollCarousel(1)">❯</button>
         </div>
@@ -366,6 +367,12 @@ export default {
   margin: 0 0 2rem 0;
 }
 
+@media (max-width: 768px){
+  .parallax__subtitle{
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
 .parallax__fade {
   z-index: 30;
   width: 100%;
@@ -453,6 +460,13 @@ export default {
   z-index: 3;
 }
 
+@media (max-width: 768px) {
+  .about-us{
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
 .about-content p {
   color: white;
   font-size: 1.2rem;
@@ -517,6 +531,31 @@ export default {
   color: oklch(var(--lightness) var(--base-chroma) calc(var(--start) + (var(--step) * var(--i))));
 }
 
+/* Медиа-запрос для мобильных устройств */
+@media (max-width: 768px) {
+  .benefits {
+    padding-left: 0.5rem; /* Уменьшенный отступ */
+    min-height: auto; /* Убираем фиксированную высоту для мобильной версии */
+  }
+
+  .benefits-header {
+    font-size: 3rem;
+    padding-left: 1rem;
+  }
+
+  .benefits-title {
+    font-size: 2rem; /* Уменьшено с 3rem до 2rem */
+    margin: 1.5rem 0;
+    white-space: nowrap;
+  }
+
+  .benefits-list li {
+    font-size: 2rem; /* Уменьшено с 3rem до 2rem */
+    margin: 1rem 0;
+    padding-left: 0.5rem;
+  }
+}
+
 /* Стили для секции "Відгуки" */
 .testimonials {
   min-height: 100vh;
@@ -573,6 +612,12 @@ export default {
   scroll-snap-align: center;
   transition: transform 0.3s ease;
   border: 1px solid #4a4a4a;
+}
+
+@media (max-width: 768px){
+  .testimonial-card{
+    flex: 0 0 250px;
+  }
 }
 
 .testimonial-card:hover {
@@ -669,13 +714,13 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #1f1f1f; /* Темный фон секции */
+  background-color: #1f1f1f;
 }
 
 .contact .section-content {
   padding: 30px;
   width: 100%;
-  color: #d3d3d3; /* Светло-серый текст */
+  color: #d3d3d3;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -685,18 +730,18 @@ export default {
   font-size: 2.5rem;
   margin-bottom: 2rem;
   font-weight: 700;
-  color: #ffffff; /* Белый цвет заголовка для читаемости */
+  color: #ffffff;
 }
 
 .contact-card {
-  background: #2a2a2a; /* Темно-серый фон карточки */
+  background: #2a2a2a;
   padding: 25px;
   border-radius: 15px;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4); /* Более глубокая тень */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
   text-align: center;
   max-width: 400px;
   width: 100%;
-  border: 1px solid #3a3a3a; /* Темная рамка */
+  border: 1px solid #3a3a3a;
   position: relative;
 }
 
@@ -714,7 +759,7 @@ export default {
 }
 
 .contact-name {
-  color: #ffffff; /* Белый для имени */
+  color: #ffffff;
   font-size: 1.5rem;
   font-weight: 600;
   margin-bottom: 10px;
@@ -726,13 +771,13 @@ export default {
 }
 
 .contact-email a {
-  color: #00cc00; /* Зеленый для ссылки */
+  color: #00cc00;
   text-decoration: none;
   transition: color 0.3s ease;
 }
 
 .contact-email a:hover {
-  color: #00ff00; /* Светлее при наведении */
+  color: #00ff00;
 }
 
 /* Стили для футера */

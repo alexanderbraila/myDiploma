@@ -65,6 +65,7 @@ export default {
 .register {
   max-width: 400px;
   margin: 20px;
+  margin-top: 55px;
   padding: 20px;
   background: var(--bg-color);
   border-radius: 15px;

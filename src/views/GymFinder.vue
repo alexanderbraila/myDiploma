@@ -1,5 +1,5 @@
 <template>
-  <div class="container mt-5">
+  <div class="container">
     <h2 class="mb-4">Найближчий зал</h2>
     <div class="controls mb-3">
       <select v-model="filter" @change="updateMarkers" class="form-select w-auto d-inline-block me-2">
@@ -365,8 +365,8 @@ export default {
 
 <style scoped>
 .container {
+  margin: 0;
   width: 100%; 
-  margin: 20px; 
   padding: 20px;
   padding-top: 80px; 
   background: var(--bg-color);
