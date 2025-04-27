@@ -293,7 +293,6 @@ export default {
   min-height: 100vh;
 }
 
-/* Стили для первой секции (Parallax) */
 .parallax {
   width: 100%;
   position: relative;
@@ -413,7 +412,6 @@ export default {
   color: white;
 }
 
-/* Стили для второй секции (About Us) */
 .about-us {
   position: relative;
   min-height: 100vh;
@@ -473,7 +471,6 @@ export default {
   max-width: 600px;
 }
 
-/* Стили для третьей секции (Benefits) */
 .benefits {
   min-height: 200vh;
   padding-left: 5rem;
@@ -531,11 +528,10 @@ export default {
   color: oklch(var(--lightness) var(--base-chroma) calc(var(--start) + (var(--step) * var(--i))));
 }
 
-/* Медиа-запрос для мобильных устройств */
 @media (max-width: 768px) {
   .benefits {
-    padding-left: 0.5rem; /* Уменьшенный отступ */
-    min-height: auto; /* Убираем фиксированную высоту для мобильной версии */
+    padding-left: 0.5rem; 
+    min-height: auto; 
   }
 
   .benefits-header {
@@ -544,19 +540,18 @@ export default {
   }
 
   .benefits-title {
-    font-size: 2rem; /* Уменьшено с 3rem до 2rem */
+    font-size: 2rem; 
     margin: 1.5rem 0;
     white-space: nowrap;
   }
 
   .benefits-list li {
-    font-size: 2rem; /* Уменьшено с 3rem до 2rem */
+    font-size: 2rem; 
     margin: 1rem 0;
     padding-left: 0.5rem;
   }
 }
 
-/* Стили для секции "Відгуки" */
 .testimonials {
   min-height: 100vh;
   display: flex;
@@ -708,7 +703,6 @@ export default {
   background: rgba(255, 255, 255, 0.2);
 }
 
-/* Стили для секции "Контакти" */
 .contact {
   min-height: 100vh;
   display: flex;
@@ -780,7 +774,6 @@ export default {
   color: #00ff00;
 }
 
-/* Стили для футера */
 .footer {
   background: v-bind('currentTheme === "light" ? "linear-gradient(90deg, #ff85a2, #5d8fc9, #4a5d8f)" : "linear-gradient(90deg, #8b3a5e, #3a5e8b)"');
   color: white;
@@ -789,7 +782,6 @@ export default {
   text-align: center;
 }
 
-/* Стили для модального окна */
 .modal-overlay {
   position: fixed;
   top: 0;

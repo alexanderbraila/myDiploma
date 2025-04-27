@@ -149,7 +149,6 @@ export default {
   font-family: 'Inter', sans-serif;
 }
 
-/* Десктопный навбар */
 .desktop-navbar {
   position: fixed;
   top: 20px;
@@ -354,7 +353,6 @@ export default {
   gap: 1rem;
 }
 
-/* Мобільний навбар */
 .mobile-navbar {
   display: none;
   position: fixed;
@@ -490,12 +488,10 @@ export default {
   transform: translateY(0);
 }
 
-/* Класс для добавления отступа для контента страницы */
 .content-with-navbar {
-  padding-top: 57px; /* Высота навбара, чтобы контент не заходил под него */
+  padding-top: 57px; 
 }
 
-/* Медиа-запросы для переключения видимости */
 @media (max-width: 768px) {
   .desktop-navbar {
     display: none;
