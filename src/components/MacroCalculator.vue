@@ -160,6 +160,7 @@
 </template>
 
 <script>
+const apiKey = process.env.VUE_APP_API_KEY;
 import axios from "axios";
 import Groq from "groq-sdk";
 
@@ -258,7 +259,7 @@ export default {
       this.showNewMacro = false;
 
       const groq = new Groq({
-        apiKey: "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",
+        apiKey,
         dangerouslyAllowBrowser: true,
       });
 
