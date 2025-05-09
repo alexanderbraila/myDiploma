@@ -9,49 +9,56 @@
 </template>
 
 <script>
-import WorkoutForm from '@/components/WorkoutForm.vue';
-import axios from 'axios';
+import WorkoutForm from "@/components/WorkoutForm.vue";
+import axios from "axios";
 
 export default {
-  name: 'CreateWorkoutView',
+  name: "CreateWorkoutView",
   components: {
     WorkoutForm,
   },
   data() {
     return {
-      workoutDescription: '',
+      workoutDescription: "",
     };
   },
   methods: {
     async displayWorkout(workoutData) {
       try {
-        const apiKey = 'AIzaSyDjjE21tW-6VeRQeHH0yTsLi4s7xm9v2vo';
-        const apiUrl = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateMessage';
+        const apiKey = "AIzaSyDjjE21tW-6VeRQeHH0yTsLi4s7xm9v2vo";
+        const apiUrl =
+          "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateMessage";
 
         const response = await axios.post(
           apiUrl,
           {
             contents: [
               {
-                role: 'user',
+                role: "user",
                 parts: {
-                  text: `Створи тренування для користувача з рівнем ${workoutData.level}, статтю ${workoutData.gender}, метою ${workoutData.goal} та інвентарем ${workoutData.equipment.join(', ')}.`,
+                  text: `Створи тренування для користувача з рівнем ${
+                    workoutData.level
+                  }, статтю ${workoutData.gender}, метою ${
+                    workoutData.goal
+                  } та інвентарем ${workoutData.equipment.join(", ")}.`,
                 },
               },
             ],
           },
           {
             headers: {
-              'Content-Type': 'application/json',
-              'x-goog-api-key': apiKey,
+              "Content-Type": "application/json",
+              "x-goog-api-key": apiKey,
             },
           }
         );
 
-        this.workoutDescription = response.data.candidates[0].content.parts[0].text;
+        this.workoutDescription =
+          response.data.candidates[0].content.parts[0].text;
       } catch (error) {
-        console.error('Помилка при генерації тренування:', error);
-        this.workoutDescription = 'Сталася помилка при генерації тренування. Будь ласка, спробуйте пізніше.';
+        console.error("Помилка при генерації тренування:", error);
+        this.workoutDescription =
+          "Сталася помилка при генерації тренування. Будь ласка, спробуйте пізніше.";
       }
     },
   },
@@ -60,11 +67,11 @@ export default {
 
 <style scoped>
 * {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
 }
 
 .router-view-create-workout {
-  margin: 20px; 
+  margin: 20px;
   background: var(--bg-color);
 }
 
@@ -98,12 +105,22 @@ p {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes fadeInUp {
-  from { transform: translateY(20px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 </style>

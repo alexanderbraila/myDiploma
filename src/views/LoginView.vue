@@ -12,75 +12,84 @@
       </div>
       <button type="submit">Увійти</button>
     </form>
-    <div v-if="message" :class="{ 'error-message': error, 'success-message': !error }">
+    <div
+      v-if="message"
+      :class="{ 'error-message': error, 'success-message': !error }"
+    >
       <p>{{ message }}</p>
     </div>
   </div>
 </template>
 
 <script>
-import axios from 'axios';
+import axios from "axios";
 
 export default {
   data() {
     return {
-      email: '',
-      password: '',
-      message: '',
+      email: "",
+      password: "",
+      message: "",
       error: false,
     };
   },
   methods: {
     decodeToken(token) {
       try {
-        const base64Url = token.split('.')[1];
-        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        const base64Url = token.split(".")[1];
+        const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
         const jsonPayload = decodeURIComponent(
           atob(base64)
-            .split('')
-            .map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
-            .join('')
+            .split("")
+            .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
+            .join("")
         );
         return JSON.parse(jsonPayload);
       } catch (e) {
-        console.error('Помилка декодування токена:', e);
+        console.error("Помилка декодування токена:", e);
         return {};
       }
     },
     async login() {
       try {
-        console.log('Надсилання запиту на вхід...');
-        const response = await axios.post('http://93.170.78.64:5000/api/login', {
-          email: this.email,
-          password: this.password,
-        });
-        console.log('Повна відповідь від сервера:', response.data);
+        console.log("Надсилання запиту на вхід...");
+        const response = await axios.post(
+          "http://93.170.78.64:5000/api/login",
+          {
+            email: this.email,
+            password: this.password,
+          }
+        );
+        console.log("Повна відповідь від сервера:", response.data);
 
         const token = response.data.token;
         const decodedToken = this.decodeToken(token);
-        const username = decodedToken.username || 'Гість';
+        const username = decodedToken.username || "Гість";
 
-        this.message = 'Вхід виконано успішно';
+        this.message = "Вхід виконано успішно";
         this.error = false;
 
-        localStorage.setItem('token', token);
-        localStorage.setItem('username', username);
-        console.log('Токен збережено:', localStorage.getItem('token'));
-        console.log('Ім’я користувача збережено:', localStorage.getItem('username'));
+        localStorage.setItem("token", token);
+        localStorage.setItem("username", username);
+        console.log("Токен збережено:", localStorage.getItem("token"));
+        console.log(
+          "Ім’я користувача збережено:",
+          localStorage.getItem("username")
+        );
 
-        console.log('Запуск перенаправлення на /profile через 1.5 секунди...');
+        console.log("Запуск перенаправлення на /profile через 1.5 секунди...");
         setTimeout(() => {
-          console.log('Перенаправлення на /profile...');
-          this.$router.push('/profile');
+          console.log("Перенаправлення на /profile...");
+          this.$router.push("/profile");
           window.location.reload();
         }, 1500);
       } catch (error) {
-        console.error('Помилка при вході:', {
+        console.error("Помилка при вході:", {
           message: error.message,
           response: error.response?.data,
           status: error.response?.status,
         });
-        this.message = error.response?.data || 'Сталася помилка при вході';
+        this.message = error.response?.data || "Сталася помилка при вході";
         this.error = true;
       }
     },
@@ -90,7 +99,7 @@ export default {
 
 <style scoped>
 * {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
 }
 
 .login {
@@ -171,21 +180,39 @@ button:hover {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes slideInLeft {
-  from { transform: translateX(-20px); opacity: 0; }
-  to { transform: translateX(0); opacity: 1; }
+  from {
+    transform: translateX(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 
 @keyframes floatUp {
-  to { transform: translateY(0); }
+  to {
+    transform: translateY(0);
+  }
 }
 
 @keyframes fadeInUp {
-  from { transform: translateY(20px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 </style>

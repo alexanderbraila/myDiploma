@@ -14,26 +14,40 @@
               <router-link to="/" class="nav-link">Головна</router-link>
             </li>
             <li class="nav-item">
-              <router-link to="/create-workout" class="nav-link">Створити тренування</router-link>
+              <router-link to="/create-workout" class="nav-link"
+                >Створити тренування</router-link
+              >
             </li>
             <li class="nav-item">
-              <router-link to="/gym-finder" class="nav-link">Найближчий зал</router-link>
+              <router-link to="/gym-finder" class="nav-link"
+                >Найближчий зал</router-link
+              >
             </li>
             <li class="nav-item">
-              <router-link to="/macro-calculator" class="nav-link">Калькулятор БЖВ</router-link>
+              <router-link to="/macro-calculator" class="nav-link"
+                >Калькулятор БЖВ</router-link
+              >
             </li>
             <li class="nav-item" v-if="isAuthenticated">
-              <router-link to="/profile" class="nav-link">Особистий кабінет</router-link>
+              <router-link to="/profile" class="nav-link"
+                >Особистий кабінет</router-link
+              >
             </li>
           </ul>
         </div>
         <!-- Блок дій -->
         <div class="navbar-actions">
-          <button @click="toggleTheme" class="btn btn-theme" :class="{ 'dark-theme': currentTheme === 'dark' }">
+          <button
+            @click="toggleTheme"
+            class="btn btn-theme"
+            :class="{ 'dark-theme': currentTheme === 'dark' }"
+          >
             <span class="theme-icon moon"></span>
           </button>
           <div v-if="!isAuthenticated" class="auth-buttons">
-            <router-link to="/register" class="btn btn-outline">Реєстрація</router-link>
+            <router-link to="/register" class="btn btn-outline"
+              >Реєстрація</router-link
+            >
             <router-link to="/login" class="btn btn-primary">Вхід</router-link>
           </div>
           <div v-else class="user-info">
@@ -41,45 +55,76 @@
             <button @click="logout" class="btn btn-outline">Вийти</button>
           </div>
         </div>
-        <!-- Кнопка для мобільного меню (не используется в десктопе) -->
-        <button class="navbar-toggler" @click="toggleMenu" aria-label="Toggle navigation">
-          <span class="toggler-icon"></span>
-        </button>
       </div>
     </nav>
 
     <!-- Мобільний навбар -->
     <nav class="navbar mobile-navbar">
       <div class="mobile-navbar-container">
-        <button class="navbar-brand" @click="toggleMenu" aria-label="Toggle navigation">
-           Fit Planner
+        <button
+          class="navbar-brand"
+          @click="toggleMenu"
+          aria-label="Toggle navigation"
+        >
+          Fit Planner
         </button>
       </div>
-      <div class="mobile-menu" :class="{ active: isMenuOpen }" @click="handleOutsideClick">
+      <div
+        class="mobile-menu"
+        :class="{ active: isMenuOpen }"
+        @click="handleOutsideClick"
+      >
         <ul class="mobile-nav">
           <li class="nav-item">
-            <router-link to="/" class="nav-link" @click="toggleMenu">Головна</router-link>
+            <router-link to="/" class="nav-link" @click="toggleMenu"
+              >Головна</router-link
+            >
           </li>
           <li class="nav-item">
-            <router-link to="/create-workout" class="nav-link" @click="toggleMenu">Створити тренування</router-link>
+            <router-link
+              to="/create-workout"
+              class="nav-link"
+              @click="toggleMenu"
+              >Створити тренування</router-link
+            >
           </li>
           <li class="nav-item">
-            <router-link to="/gym-finder" class="nav-link" @click="toggleMenu">Найближчий зал</router-link>
+            <router-link to="/gym-finder" class="nav-link" @click="toggleMenu"
+              >Найближчий зал</router-link
+            >
           </li>
           <li class="nav-item">
-            <router-link to="/macro-calculator" class="nav-link" @click="toggleMenu">Калькулятор БЖВ</router-link>
+            <router-link
+              to="/macro-calculator"
+              class="nav-link"
+              @click="toggleMenu"
+              >Калькулятор БЖВ</router-link
+            >
           </li>
           <li class="nav-item" v-if="isAuthenticated">
-            <router-link to="/profile" class="nav-link" @click="toggleMenu">Особистий кабінет</router-link>
+            <router-link to="/profile" class="nav-link" @click="toggleMenu"
+              >Особистий кабінет</router-link
+            >
           </li>
         </ul>
         <div class="mobile-actions">
-          <button @click="toggleTheme" class="btn btn-theme" :class="{ 'dark-theme': currentTheme === 'dark' }">
+          <button
+            @click="toggleTheme"
+            class="btn btn-theme"
+            :class="{ 'dark-theme': currentTheme === 'dark' }"
+          >
             <span class="theme-icon moon"></span>
           </button>
           <div v-if="!isAuthenticated" class="auth-buttons">
-            <router-link to="/register" class="btn btn-outline" @click="toggleMenu">Реєстрація</router-link>
-            <router-link to="/login" class="btn btn-primary" @click="toggleMenu">Вхід</router-link>
+            <router-link
+              to="/register"
+              class="btn btn-outline"
+              @click="toggleMenu"
+              >Реєстрація</router-link
+            >
+            <router-link to="/login" class="btn btn-primary" @click="toggleMenu"
+              >Вхід</router-link
+            >
           </div>
           <div v-else class="user-info">
             <span class="username">Вітаємо, {{ username }}</span>
@@ -93,7 +138,7 @@
 
 <script>
 export default {
-  name: 'NavBar',
+  name: "NavBar",
   data() {
     return {
       isMenuOpen: false,
@@ -102,41 +147,44 @@ export default {
   },
   computed: {
     isAuthenticated() {
-      return !!localStorage.getItem('token');
+      return !!localStorage.getItem("token");
     },
     username() {
-      return localStorage.getItem('username') || 'Гість';
+      return localStorage.getItem("username") || "Гість";
     },
     currentTheme() {
-      return this.$root.currentTheme || 'light';
+      return this.$root.currentTheme || "light";
     },
   },
   mounted() {
-    this.scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+    this.scrollbarWidth =
+      window.innerWidth - document.documentElement.clientWidth;
     document.body.style.paddingRight = `${this.scrollbarWidth}px`;
     this.$nextTick(() => {
-      this.$el.querySelector('.desktop-navbar').classList.add('visible');
+      this.$el.querySelector(".desktop-navbar").classList.add("visible");
     });
   },
   methods: {
     logout() {
-      console.log('Вихід з акаунта...');
-      localStorage.removeItem('token');
-      localStorage.removeItem('username');
-      localStorage.removeItem('email');
-      this.$router.push('/login');
-      console.log('Перенаправлення на /login виконано, перезавантаження...');
+      console.log("Вихід з акаунта...");
+      localStorage.removeItem("token");
+      localStorage.removeItem("username");
+      localStorage.removeItem("email");
+      this.$router.push("/login");
+      console.log("Перенаправлення на /login виконано, перезавантаження...");
       window.location.reload();
     },
     toggleTheme() {
-      this.$root.currentTheme = this.currentTheme === 'light' ? 'dark' : 'light';
+      this.$root.currentTheme =
+        this.currentTheme === "light" ? "dark" : "light";
     },
     toggleMenu() {
       this.isMenuOpen = !this.isMenuOpen;
     },
     handleOutsideClick(event) {
-      // Закрываем меню, если клик был вне элементов меню
-      if (!event.target.closest('.mobile-nav, .mobile-actions, .navbar-brand')) {
+      if (
+        !event.target.closest(".mobile-nav, .mobile-actions, .navbar-brand")
+      ) {
         this.isMenuOpen = false;
       }
     },
@@ -146,7 +194,7 @@ export default {
 
 <style scoped>
 * {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
 }
 
 .desktop-navbar {
@@ -156,10 +204,13 @@ export default {
   transform: translateX(-50%);
   width: fit-content;
   z-index: 1000;
-  background: transparent;
+  background: var(--navbar-bg);
   opacity: 0;
   transform: translate(-50%, -100px);
   transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  border-radius: 50px;
+  padding: 0.5rem 1rem;
+  box-shadow: 0 4px 10px var(--shadow-color);
 }
 
 .desktop-navbar.visible {
@@ -177,11 +228,11 @@ export default {
 .navbar-logo,
 .navbar-menu,
 .navbar-actions {
-  background: rgba(20, 20, 20, 0.8);
+  background: var(--card-bg);
   backdrop-filter: blur(10px);
   border-radius: 50px;
   padding: 0.5rem 1rem;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 10px var(--shadow-color);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -191,13 +242,13 @@ export default {
 .navbar-brand {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #ff85a2;
+  color: var(--button-bg);
   letter-spacing: 2px;
-  background: linear-gradient(90deg, #ff85a2, #ffffff);
+  background: var(--navbar-bg);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  text-shadow: 0 2px 4px rgba(255, 133, 162, 0.3);
+  text-shadow: 0 2px 4px var(--shadow-color);
   padding: 0;
   line-height: 1;
   user-select: none;
@@ -225,7 +276,7 @@ export default {
 }
 
 .nav-link {
-  color: #ffffff;
+  color: var(--text-color);
   font-weight: 500;
   font-size: 0.9rem;
   text-decoration: none;
@@ -236,17 +287,22 @@ export default {
 }
 
 .nav-link:hover {
-  color: #ff85a2;
+  color: var(--button-bg);
 }
 
 .nav-link::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 0;
   left: 50%;
   width: 0;
   height: 2px;
-  background: linear-gradient(90deg, transparent, #ff85a2, transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--button-bg),
+    transparent
+  );
   transition: width 0.4s ease, left 0.4s ease;
 }
 
@@ -256,13 +312,13 @@ export default {
 }
 
 .router-link-active {
-  color: #ffffff !important;
+  color: var(--text-color) !important;
 }
 
 .router-link-active::after {
   width: 70%;
   left: 15%;
-  background: #ff85a2;
+  background: var(--button-bg);
 }
 
 .navbar-actions {
@@ -278,35 +334,35 @@ export default {
   border: none;
   cursor: pointer;
   white-space: nowrap;
+  color: var(--text-color);
 }
 
 .btn-outline {
   background: transparent;
-  color: #ffffff;
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  box-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 0 5px var(--shadow-color);
 }
 
 .btn-outline:hover {
-  background: rgba(255, 133, 162, 0.1);
-  border-color: #ff85a2;
-  color: #ffffff;
-  box-shadow: 0 0 10px rgba(255, 133, 162, 0.5);
+  background: var(--button-hover);
+  border-color: var(--button-bg);
+  color: var(--text-color);
+  box-shadow: 0 0 10px var(--shadow-color);
 }
 
 .btn-primary {
-  background: #ff85a2;
-  color: #ffffff;
+  background: var(--button-bg);
+  color: var(--text-color);
 }
 
 .btn-primary:hover {
-  background: #ff6b8b;
-  color: #ffffff;
+  background: var(--button-hover);
+  color: var(--text-color);
 }
 
 .btn-theme {
   background: transparent;
-  border: 1px solid #ffffff;
+  border: 1px solid var(--border-color);
   border-radius: 50%;
   width: 40px;
   height: 40px;
@@ -318,8 +374,8 @@ export default {
 }
 
 .btn-theme:hover {
-  background: #ff85a2;
-  border-color: #ff85a2;
+  background: var(--button-bg);
+  border-color: var(--button-bg);
   transform: scale(1.1);
 }
 
@@ -328,18 +384,18 @@ export default {
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  background: #ffffff;
+  background: var(--text-color);
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  box-shadow: inset -10px 0 0 #000000;
+  box-shadow: inset -10px 0 0 var(--shadow-color);
   transition: transform 0.6s ease-in-out, box-shadow 0.6s ease-in-out;
 }
 
 .btn-theme.dark-theme .theme-icon.moon {
   transform: translate(-50%, -50%) rotate(360deg);
-  box-shadow: inset 10px 0 0 #000000;
+  box-shadow: inset 10px 0 0 var(--shadow-color);
 }
 
 .auth-buttons {
@@ -353,6 +409,10 @@ export default {
   gap: 1rem;
 }
 
+.username {
+  color: var(--text-color);
+}
+
 .mobile-navbar {
   display: none;
   position: fixed;
@@ -360,8 +420,9 @@ export default {
   left: 0;
   width: 100%;
   z-index: 1000;
-  background: transparent;
+  background: var(--navbar-bg);
   height: 57px;
+  box-shadow: 0 4px 10px var(--shadow-color);
 }
 
 .mobile-navbar-container {
@@ -376,14 +437,14 @@ export default {
 .mobile-navbar .navbar-brand {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #ff85a2;
+  color: var(--button-bg);
   letter-spacing: 2px;
-  background: linear-gradient(90deg, #ff85a2, #ffffff);
+  background: var(--navbar-bg);
   -webkit-background-clip: text;
   background-clip: text;
-  text-shadow: 0 2px 4px rgba(255, 133, 162, 0.3);
+  text-shadow: 0 2px 4px var(--shadow-color);
   padding: 0.5rem 1rem;
-  border: 1px solid rgba(255, 133, 162, 0.5);
+  border: 1px solid var(--border-color);
   border-radius: 25px;
   animation: pulse 2s infinite ease-in-out;
   transition: transform 0.3s ease, border-radius 0.3s ease, background 0.3s ease;
@@ -396,22 +457,22 @@ export default {
 @keyframes pulse {
   0% {
     transform: scale(1);
-    box-shadow: 0 0 0 0 rgba(255, 133, 162, 0.5);
+    box-shadow: 0 0 0 0 var(--shadow-color);
   }
   50% {
     transform: scale(1.05);
-    box-shadow: 0 0 10px 5px rgba(255, 133, 162, 0.3);
+    box-shadow: 0 0 10px 5px var(--shadow-color);
   }
   100% {
     transform: scale(1);
-    box-shadow: 0 0 0 0 rgba(255, 133, 162, 0.5);
+    box-shadow: 0 0 0 0 var(--shadow-color);
   }
 }
 
 .mobile-menu.active .navbar-brand {
   transform: translateX(-4rem);
   border-radius: 15px;
-  background: rgba(20, 20, 20, 0.9);
+  background: var(--card-bg);
 }
 
 .mobile-menu {
@@ -420,7 +481,7 @@ export default {
   left: 0;
   width: 100%;
   display: flex;
-  background: rgba(20, 20, 20, 0.9);
+  background: var(--card-bg);
   backdrop-filter: blur(10px);
   padding: 1rem;
   max-height: calc(100dvh - 60px);
@@ -459,7 +520,7 @@ export default {
 }
 
 .mobile-nav .nav-link {
-  color: #ffffff;
+  color: var(--text-color);
   font-weight: 500;
   font-size: 1rem;
   text-decoration: none;
@@ -469,7 +530,7 @@ export default {
 }
 
 .mobile-nav .nav-link:hover {
-  color: #ff85a2;
+  color: var(--button-bg);
 }
 
 .mobile-actions {
@@ -489,7 +550,7 @@ export default {
 }
 
 .content-with-navbar {
-  padding-top: 57px; 
+  padding-top: 57px;
 }
 
 @media (max-width: 768px) {
@@ -500,7 +561,7 @@ export default {
     display: block;
   }
 
-  .auth-buttons{
+  .auth-buttons {
     flex-direction: column;
   }
 }

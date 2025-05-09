@@ -16,40 +16,44 @@
       </div>
       <button type="submit">Зареєструватися</button>
     </form>
-    <div v-if="message" :class="{ 'error-message': error, 'success-message': !error }">
+    <div
+      v-if="message"
+      :class="{ 'error-message': error, 'success-message': !error }"
+    >
       <p>{{ message }}</p>
     </div>
   </div>
 </template>
 
 <script>
-import axios from 'axios';
+import axios from "axios";
 
 export default {
   data() {
     return {
-      username: '',
-      email: '',
-      password: '',
-      message: '',
+      username: "",
+      email: "",
+      password: "",
+      message: "",
       error: false,
     };
   },
   methods: {
     async register() {
       try {
-        await axios.post('http://93.170.78.64:5000/api/register', {
+        await axios.post("http://93.170.78.64:5000/api/register", {
           username: this.username,
           email: this.email,
           password: this.password,
         });
-        this.message = 'Реєстрація пройшла успішно! Будь ласка, увійдіть у свій акаунт.';
+        this.message =
+          "Реєстрація пройшла успішно! Будь ласка, увійдіть у свій акаунт.";
         this.error = false;
         setTimeout(() => {
-          this.$router.push('/login');
+          this.$router.push("/login");
         }, 1500);
       } catch (error) {
-        this.message = error.response?.data || 'Сталася помилка при реєстрації';
+        this.message = error.response?.data || "Сталася помилка при реєстрації";
         this.error = true;
       }
     },
@@ -59,7 +63,7 @@ export default {
 
 <style scoped>
 * {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
 }
 
 .register {
@@ -140,21 +144,39 @@ button:hover {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes slideInLeft {
-  from { transform: translateX(-20px); opacity: 0; }
-  to { transform: translateX(0); opacity: 1; }
+  from {
+    transform: translateX(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 
 @keyframes floatUp {
-  to { transform: translateY(0); }
+  to {
+    transform: translateY(0);
+  }
 }
 
 @keyframes fadeInUp {
-  from { transform: translateY(20px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 </style>

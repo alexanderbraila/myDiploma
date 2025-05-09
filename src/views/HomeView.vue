@@ -6,17 +6,24 @@
         <div class="parallax__visuals">
           <div class="parallax__black-line-overflow"></div>
           <div data-parallax-layers class="parallax__layers">
-            <img src="@/assets/images/fitplanner_bg.jpg" 
-                 data-parallax-layer="1" 
-                 alt="FitPlanner Background" 
-                 class="parallax__layer-img">
-            <img src="@/assets/images/fitplanner_bg.jpg" 
-                 data-parallax-layer="2" 
-                 alt="FitPlanner Background" 
-                 class="parallax__layer-img">
+            <img
+              src="@/assets/images/fitplanner_bg.jpg"
+              data-parallax-layer="1"
+              alt="FitPlanner Background"
+              class="parallax__layer-img"
+            />
+            <img
+              src="@/assets/images/fitplanner_bg.jpg"
+              data-parallax-layer="2"
+              alt="FitPlanner Background"
+              class="parallax__layer-img"
+            />
             <div data-parallax-layer="3" class="parallax__layer-title">
               <h1 class="parallax__title">Хочеш на заняття?</h1>
-              <p class="parallax__subtitle">Стань частиною нашого ком’юніті та досягай своїх цілей разом із нами!</p>
+              <p class="parallax__subtitle">
+                Стань частиною нашого ком’юніті та досягай своїх цілей разом із
+                нами!
+              </p>
               <button @click="openModal" class="btn-custom">Записатися</button>
             </div>
           </div>
@@ -31,7 +38,12 @@
       <div class="about-us-image"></div>
       <h2 class="about-title"><span aria-hidden="true">Про </span>нас</h2>
       <div class="about-content">
-        <p>Ми команда ентузіастів, які прагнуть зробити ваш шлях до здорового способу життя максимально зручним та ефективним. Наш планувальник тренувань допоможе вам створити персоналізовані програми, які відповідають вашим цілям і рівнем підготовки.</p>
+        <p>
+          Ми команда ентузіастів, які прагнуть зробити ваш шлях до здорового
+          способу життя максимально зручним та ефективним. Наш планувальник
+          тренувань допоможе вам створити персоналізовані програми, які
+          відповідають вашим цілям і рівнем підготовки.
+        </p>
       </div>
     </section>
 
@@ -41,10 +53,12 @@
         <h1 class="benefits-header">Наші переваги</h1>
         <div class="benefits-content">
           <h2 class="benefits-title">У нас</h2>
-          <ul class="benefits-list" :style="{'--count': benefits.length}">
-            <li v-for="(benefit, index) in benefits" 
-                :key="index" 
-                :style="{'--i': index}">
+          <ul class="benefits-list" :style="{ '--count': benefits.length }">
+            <li
+              v-for="(benefit, index) in benefits"
+              :key="index"
+              :style="{ '--i': index }"
+            >
               {{ benefit.title }}
             </li>
           </ul>
@@ -58,16 +72,25 @@
         <h2>Відгуки</h2>
         <div class="testimonials-carousel">
           <div class="carousel-wrapper" ref="carousel">
-            <div class="testimonial-card" v-for="(testimonial, index) in testimonials" :key="index">
+            <div
+              class="testimonial-card"
+              v-for="(testimonial, index) in testimonials"
+              :key="index"
+            >
               <div class="testimonial-avatar"></div>
               <p>{{ testimonial.text }}</p>
               <span class="author">- {{ testimonial.author }}</span>
               <div class="rating">
-                <span v-for="star in 5" :key="star" :class="{ 'filled': star <= testimonial.rating }">★</span>
+                <span
+                  v-for="star in 5"
+                  :key="star"
+                  :class="{ filled: star <= testimonial.rating }"
+                  >★</span
+                >
               </div>
             </div>
-          клуб
-            </div>
+            клуб
+          </div>
           <button class="carousel-prev" @click="scrollCarousel(-1)">❮</button>
           <button class="carousel-next" @click="scrollCarousel(1)">❯</button>
         </div>
@@ -82,14 +105,20 @@
           <div class="contact-icon"></div>
           <p class="contact-title">Дипломна робота студента KI-21-2</p>
           <p class="contact-name">Браіла О.</p>
-          <p class="contact-email">Пошта: <a href="mailto:brailaalex@icloud.com">brailaalex@icloud.com</a></p>
+          <p class="contact-email">
+            Пошта:
+            <a href="mailto:brailaalex@icloud.com">brailaalex@icloud.com</a>
+          </p>
         </div>
       </div>
     </section>
 
     <!-- Футер -->
     <footer class="footer">
-      <p>© 2025 FitPlanner. Розробка інтерактивного веб-сайту з інтеграцією штучного інтелекту та розгортанням на Raspberry Pi</p>
+      <p>
+        © 2025 FitPlanner. Розробка інтерактивного веб-сайту з інтеграцією
+        штучного інтелекту та розгортанням на Raspberry Pi
+      </p>
     </footer>
 
     <!-- Модальное окно -->
@@ -107,14 +136,26 @@
           </div>
           <div class="form-group">
             <label for="email">Email:</label>
-            <input type="email" id="email" v-model="bookingForm.email" required />
+            <input
+              type="email"
+              id="email"
+              v-model="bookingForm.email"
+              required
+            />
           </div>
           <div class="form-group">
             <label for="date">Бажана дата та час:</label>
-            <input type="datetime-local" id="date" v-model="bookingForm.date" required />
+            <input
+              type="datetime-local"
+              id="date"
+              v-model="bookingForm.date"
+              required
+            />
           </div>
           <button type="submit" class="btn btn-primary">Відправити</button>
-          <button type="button" @click="closeModal" class="btn btn-secondary">Закрити</button>
+          <button type="button" @click="closeModal" class="btn btn-secondary">
+            Закрити
+          </button>
         </form>
       </div>
     </div>
@@ -122,97 +163,154 @@
 </template>
 
 <script>
-import axios from 'axios';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import axios from "axios";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default {
-  name: 'HomeView',
+  name: "HomeView",
   data() {
     return {
       isModalOpen: false,
       bookingForm: {
-        name: '',
-        phone: '',
-        email: '',
-        date: '',
+        name: "",
+        phone: "",
+        email: "",
+        date: "",
       },
       selectedBenefit: null,
       icons: [
-        'icon-reorder',
-        'icon-th-large',
-        'icon-bar-chart',
-        'icon-tasks',
-        'icon-bell',
-        'icon-archive',
-        'icon-comment',
-        'icon-sitemap'
+        "icon-reorder",
+        "icon-th-large",
+        "icon-bar-chart",
+        "icon-tasks",
+        "icon-bell",
+        "icon-archive",
+        "icon-comment",
+        "icon-sitemap",
       ],
       benefits: [
-        { title: 'Персоналізовані тренування', description: 'Створюйте тренування під свої цілі та рівень.' },
-        { title: 'Зручний інтерфейс', description: 'Просте та інтуїтивне використання.' },
-        { title: 'Різні цілі', description: 'Підтримка схуднення, набору маси та витривалості.' },
-        { title: 'Вибір інвентарю', description: 'Тренування з власною вагою, гантелями чи штангою.' },
-        { title: 'Відстеження прогресу', description: 'Стежте за своїми досягненнями та покращуйте результати.' },
-        { title: 'Поради від тренерів', description: 'Отримуйте рекомендації від професіоналів.' },
-        { title: 'Гнучкий графік', description: 'Тренуйтеся у зручний для вас час.' },
-        { title: 'Мотивація', description: 'Отримуйте нагадування та мотиваційні повідомлення.' },
+        {
+          title: "Персоналізовані тренування",
+          description: "Створюйте тренування під свої цілі та рівень.",
+        },
+        {
+          title: "Зручний інтерфейс",
+          description: "Просте та інтуїтивне використання.",
+        },
+        {
+          title: "Різні цілі",
+          description: "Підтримка схуднення, набору маси та витривалості.",
+        },
+        {
+          title: "Вибір інвентарю",
+          description: "Тренування з власною вагою, гантелями чи штангою.",
+        },
+        {
+          title: "Відстеження прогресу",
+          description:
+            "Стежте за своїми досягненнями та покращуйте результати.",
+        },
+        {
+          title: "Поради від тренерів",
+          description: "Отримуйте рекомендації від професіоналів.",
+        },
+        {
+          title: "Гнучкий графік",
+          description: "Тренуйтеся у зручний для вас час.",
+        },
+        {
+          title: "Мотивація",
+          description: "Отримуйте нагадування та мотиваційні повідомлення.",
+        },
       ],
       testimonials: [
-        { text: 'За допомогою FitPlanner я досяг своїх цілей швидше, ніж очікував!', author: 'Іван І.', rating: 5 },
-        { text: 'Чудовий сервіс для тих, хто хоче займатися вдома!', author: 'Марія К.', rating: 4 },
-        { text: 'Простий і зручний додаток, рекомендую всім!', author: 'Олег П.', rating: 5 },
-        { text: 'Тренування стали частиною мого життя завдяки FitPlanner!', author: 'Анна С.', rating: 4 },
-        { text: 'Дуже зручно планувати заняття, все інтуїтивно зрозуміло.', author: 'Дмитро В.', rating: 5 },
-        { text: 'Мотивуючі поради від тренерів — це те, що мені потрібно!', author: 'Юлія М.', rating: 4 },
-        { text: 'FitPlanner допоміг мені схуднути без стресу.', author: 'Олена Т.', rating: 5 },
+        {
+          text: "За допомогою FitPlanner я досяг своїх цілей швидше, ніж очікував!",
+          author: "Іван І.",
+          rating: 5,
+        },
+        {
+          text: "Чудовий сервіс для тих, хто хоче займатися вдома!",
+          author: "Марія К.",
+          rating: 4,
+        },
+        {
+          text: "Простий і зручний додаток, рекомендую всім!",
+          author: "Олег П.",
+          rating: 5,
+        },
+        {
+          text: "Тренування стали частиною мого життя завдяки FitPlanner!",
+          author: "Анна С.",
+          rating: 4,
+        },
+        {
+          text: "Дуже зручно планувати заняття, все інтуїтивно зрозуміло.",
+          author: "Дмитро В.",
+          rating: 5,
+        },
+        {
+          text: "Мотивуючі поради від тренерів — це те, що мені потрібно!",
+          author: "Юлія М.",
+          rating: 4,
+        },
+        {
+          text: "FitPlanner допоміг мені схуднути без стресу.",
+          author: "Олена Т.",
+          rating: 5,
+        },
       ],
     };
   },
   computed: {
     currentTheme() {
-      return this.$root.currentTheme || 'light';
+      return this.$root.currentTheme || "light";
     },
   },
   mounted() {
     // Parallax effect для первой секции
-    document.querySelectorAll('[data-parallax-layers]').forEach((triggerElement) => {
-      let tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: triggerElement,
-          start: "0% 0%",
-          end: "100% 0%",
-          scrub: 0
-        }
-      });
-      const layers = [
-        { layer: "1", yPercent: 70 },
-        { layer: "2", yPercent: 55 },
-        { layer: "3", yPercent: 40 }
-      ];
-      layers.forEach((layerObj, idx) => {
-        tl.to(
-          triggerElement.querySelectorAll(`[data-parallax-layer="${layerObj.layer}"]`),
-          {
-            yPercent: layerObj.yPercent,
-            ease: "none"
+    document
+      .querySelectorAll("[data-parallax-layers]")
+      .forEach((triggerElement) => {
+        let tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: triggerElement,
+            start: "0% 0%",
+            end: "100% 0%",
+            scrub: 0,
           },
-          idx === 0 ? undefined : "<"
-        );
+        });
+        const layers = [
+          { layer: "1", yPercent: 70 },
+          { layer: "2", yPercent: 55 },
+          { layer: "3", yPercent: 40 },
+        ];
+        layers.forEach((layerObj, idx) => {
+          tl.to(
+            triggerElement.querySelectorAll(
+              `[data-parallax-layer="${layerObj.layer}"]`
+            ),
+            {
+              yPercent: layerObj.yPercent,
+              ease: "none",
+            },
+            idx === 0 ? undefined : "<"
+          );
+        });
       });
-    });
 
     // Эффект для третьей секции (Benefits)
-    const benefitsItems = gsap.utils.toArray('.benefits-list li');
+    const benefitsItems = gsap.utils.toArray(".benefits-list li");
     gsap.set(benefitsItems, { opacity: 0.2 });
 
     benefitsItems.forEach((item) => {
       ScrollTrigger.create({
         trigger: item,
-        start: 'top center',
-        end: 'bottom center',
+        start: "top center",
+        end: "bottom center",
         onEnter: () => {
           gsap.to(benefitsItems, { opacity: 0.2, duration: 0.3 });
           gsap.to(item, { opacity: 1, duration: 0.3 });
@@ -236,34 +334,53 @@ export default {
     },
     closeModal() {
       this.isModalOpen = false;
-      this.bookingForm = { name: '', phone: '', email: '', date: '' };
+      this.bookingForm = { name: "", phone: "", email: "", date: "" };
     },
     async submitBooking() {
       try {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem("token");
         if (!token) {
-          this.$root.$emit('showToast', { message: 'Будь ласка, увійдіть в систему для запису.', type: 'error' });
-          this.$router.push('/login');
+          this.$root.$emit("showToast", {
+            message: "Будь ласка, увійдіть в систему для запису.",
+            type: "error",
+          });
+          this.$router.push("/login");
           return;
         }
-        await axios.post('http://93.170.78.64:5000/api/bookings', {
-          name: this.bookingForm.name,
-          phone: this.bookingForm.phone,
-          email: this.bookingForm.email,
-          date: this.bookingForm.date,
-        }, {
-          headers: { Authorization: `Bearer ${token}` },
+        await axios.post(
+          "http://93.170.78.64:5000/api/bookings",
+          {
+            name: this.bookingForm.name,
+            phone: this.bookingForm.phone,
+            email: this.bookingForm.email,
+            date: this.bookingForm.date,
+          },
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+        this.$root.$emit("showToast", {
+          message: "Запис успішно відправлено!",
+          type: "success",
         });
-        this.$root.$emit('showToast', { message: 'Запис успішно відправлено!', type: 'success' });
         this.closeModal();
       } catch (error) {
-        console.error('Помилка при відправці запису:', error.response ? error.response.data : error.message);
+        console.error(
+          "Помилка при відправці запису:",
+          error.response ? error.response.data : error.message
+        );
         if (error.response && error.response.status === 403) {
-          this.$root.$emit('showToast', { message: 'Сесія закінчилася. Увійдіть знову.', type: 'error' });
-          localStorage.removeItem('token');
-          this.$router.push('/login');
+          this.$root.$emit("showToast", {
+            message: "Сесія закінчилася. Увійдіть знову.",
+            type: "error",
+          });
+          localStorage.removeItem("token");
+          this.$router.push("/login");
         } else {
-          this.$root.$emit('showToast', { message: 'Сталася помилка при відправці запису.', type: 'error' });
+          this.$root.$emit("showToast", {
+            message: "Сталася помилка при відправці запису.",
+            type: "error",
+          });
         }
       }
     },
@@ -273,7 +390,7 @@ export default {
     scrollCarousel(direction) {
       const carousel = this.$refs.carousel;
       const scrollAmount = carousel.offsetWidth * 0.8;
-      carousel.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
+      carousel.scrollBy({ left: direction * scrollAmount, behavior: "smooth" });
     },
   },
 };
@@ -281,7 +398,7 @@ export default {
 
 <style scoped>
 * {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -366,8 +483,8 @@ export default {
   margin: 0 0 2rem 0;
 }
 
-@media (max-width: 768px){
-  .parallax__subtitle{
+@media (max-width: 768px) {
+  .parallax__subtitle {
     padding-left: 2rem;
     padding-right: 2rem;
   }
@@ -379,11 +496,22 @@ export default {
   position: absolute;
   bottom: 0;
   left: 0;
-  background: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.738) 19%, 
-    rgba(0, 0, 0, 0.541) 34%, rgba(0, 0, 0, 0.382) 47%, rgba(0, 0, 0, 0.278) 56.5%, 
-    rgba(0, 0, 0, 0.194) 65%, rgba(0, 0, 0, 0.126) 73%, rgba(0, 0, 0, 0.075) 80.2%, 
-    rgba(0, 0, 0, 0.042) 86.1%, rgba(0, 0, 0, 0.021) 91%, rgba(0, 0, 0, 0.008) 95.2%, 
-    rgba(0, 0, 0, 0.002) 98.2%, transparent 100%);
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 0.738) 19%,
+    rgba(0, 0, 0, 0.541) 34%,
+    rgba(0, 0, 0, 0.382) 47%,
+    rgba(0, 0, 0, 0.278) 56.5%,
+    rgba(0, 0, 0, 0.194) 65%,
+    rgba(0, 0, 0, 0.126) 73%,
+    rgba(0, 0, 0, 0.075) 80.2%,
+    rgba(0, 0, 0, 0.042) 86.1%,
+    rgba(0, 0, 0, 0.021) 91%,
+    rgba(0, 0, 0, 0.008) 95.2%,
+    rgba(0, 0, 0, 0.002) 98.2%,
+    transparent 100%
+  );
 }
 
 .parallax__black-line-overflow {
@@ -440,7 +568,7 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
-  background: url('@/assets/images/section2.jpg') no-repeat center/cover;
+  background: url("@/assets/images/section2.jpg") no-repeat center/cover;
   clip-path: polygon(100% 0, 0 100%, 100% 100%);
   z-index: 2;
 }
@@ -459,7 +587,7 @@ export default {
 }
 
 @media (max-width: 768px) {
-  .about-us{
+  .about-us {
     padding-left: 2rem;
     padding-right: 2rem;
   }
@@ -525,13 +653,16 @@ export default {
   --lightness: 75%;
   --base-chroma: 0.3;
   --step: calc((var(--end) - var(--start)) / (var(--count) - 1));
-  color: oklch(var(--lightness) var(--base-chroma) calc(var(--start) + (var(--step) * var(--i))));
+  color: oklch(
+    var(--lightness) var(--base-chroma)
+      calc(var(--start) + (var(--step) * var(--i)))
+  );
 }
 
 @media (max-width: 768px) {
   .benefits {
-    padding-left: 0.5rem; 
-    min-height: auto; 
+    padding-left: 0.5rem;
+    min-height: auto;
   }
 
   .benefits-header {
@@ -540,13 +671,13 @@ export default {
   }
 
   .benefits-title {
-    font-size: 2rem; 
+    font-size: 2rem;
     margin: 1.5rem 0;
     white-space: nowrap;
   }
 
   .benefits-list li {
-    font-size: 2rem; 
+    font-size: 2rem;
     margin: 1rem 0;
     padding-left: 0.5rem;
   }
@@ -609,8 +740,8 @@ export default {
   border: 1px solid #4a4a4a;
 }
 
-@media (max-width: 768px){
-  .testimonial-card{
+@media (max-width: 768px) {
+  .testimonial-card {
     flex: 0 0 250px;
   }
 }
@@ -632,11 +763,11 @@ export default {
 }
 
 .testimonial-avatar::before {
-  content: '';
+  content: "";
   width: 40px;
   height: 40px;
-  background: radial-gradient(circle, #d3d3d3 10%, transparent 10%), 
-              radial-gradient(circle at 50% 70%, #d3d3d3 20%, transparent 20%);
+  background: radial-gradient(circle, #d3d3d3 10%, transparent 10%),
+    radial-gradient(circle at 50% 70%, #d3d3d3 20%, transparent 20%);
   border-radius: 50%;
   position: absolute;
   top: 50%;
@@ -742,7 +873,8 @@ export default {
 .contact-icon {
   width: 50px;
   height: 50px;
-  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23d3d3d3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>') no-repeat center;
+  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23d3d3d3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>')
+    no-repeat center;
   margin: 0 auto 20px;
 }
 
@@ -775,7 +907,9 @@ export default {
 }
 
 .footer {
-  background: v-bind('currentTheme === "light" ? "linear-gradient(90deg, #ff85a2, #5d8fc9, #4a5d8f)" : "linear-gradient(90deg, #8b3a5e, #3a5e8b)"');
+  background: v-bind(
+    'currentTheme === "light" ? "linear-gradient(90deg, #ff85a2, #5d8fc9, #4a5d8f)" : "linear-gradient(90deg, #8b3a5e, #3a5e8b)"'
+  );
   color: white;
   padding: 20px;
   width: 100%;

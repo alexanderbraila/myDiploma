@@ -3,7 +3,11 @@
     <div class="row">
       <div class="col-md-6 col-12">
         <h2 class="mb-4">Створіть своє тренування</h2>
-        <form @submit.prevent="generateWorkout" class="needs-validation" novalidate>
+        <form
+          @submit.prevent="generateWorkout"
+          class="needs-validation"
+          novalidate
+        >
           <div class="mb-3">
             <label for="level" class="form-label">Рівень:</label>
             <select id="level" v-model="level" class="form-select" required>
@@ -33,20 +37,49 @@
           <div class="mb-3">
             <label class="form-label">Інвентар:</label>
             <div class="form-check">
-              <input type="checkbox" v-model="equipment" value="bodyweight" class="form-check-input" id="bodyweight" />
-              <label for="bodyweight" class="form-check-label">Власна вага</label>
+              <input
+                type="checkbox"
+                v-model="equipment"
+                value="bodyweight"
+                class="form-check-input"
+                id="bodyweight"
+              />
+              <label for="bodyweight" class="form-check-label"
+                >Власна вага</label
+              >
             </div>
             <div class="form-check">
-              <input type="checkbox" v-model="equipment" value="dumbbells" class="form-check-input" id="dumbbells" />
+              <input
+                type="checkbox"
+                v-model="equipment"
+                value="dumbbells"
+                class="form-check-input"
+                id="dumbbells"
+              />
               <label for="dumbbells" class="form-check-label">Гантелі</label>
             </div>
             <div class="form-check">
-              <input type="checkbox" v-model="equipment" value="barbell" class="form-check-input" id="barbell" />
+              <input
+                type="checkbox"
+                v-model="equipment"
+                value="barbell"
+                class="form-check-input"
+                id="barbell"
+              />
               <label for="barbell" class="form-check-label">Штанга</label>
             </div>
           </div>
-          <button type="submit" class="btn btn-primary btn-lg w-100" :disabled="isLoading">
-            <span v-if="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+          <button
+            type="submit"
+            class="btn btn-primary btn-lg w-100"
+            :disabled="isLoading"
+          >
+            <span
+              v-if="isLoading"
+              class="spinner-border spinner-border-sm"
+              role="status"
+              aria-hidden="true"
+            ></span>
             <span v-else>Згенерувати тренування</span>
           </button>
         </form>
@@ -59,14 +92,33 @@
           </div>
         </div>
         <div v-if="savedWorkouts.length > 0">
-          <div v-for="workout in savedWorkouts" :key="workout.id" class="card mb-3">
-            <div class="card-header d-flex justify-content-between align-items-center">
-              <button class="btn btn-link" type="button" @click="toggleWorkoutDetails(workout.id)">
-                {{ workout.showDetails ? 'Приховати' : 'Показати' }} тренування
+          <div
+            v-for="workout in savedWorkouts"
+            :key="workout.id"
+            class="card mb-3"
+          >
+            <div
+              class="card-header d-flex justify-content-between align-items-center"
+            >
+              <button
+                class="btn btn-link"
+                type="button"
+                @click="toggleWorkoutDetails(workout.id)"
+              >
+                {{ workout.showDetails ? "Приховати" : "Показати" }} тренування
               </button>
-              <button class="btn btn-danger btn-sm" @click="deleteWorkout(workout.id)">Видалити</button>
+              <button
+                class="btn btn-danger btn-sm"
+                @click="deleteWorkout(workout.id)"
+              >
+                Видалити
+              </button>
             </div>
-            <div class="card-body" v-if="workout.showDetails" v-html="workout.workout_data"></div>
+            <div
+              class="card-body"
+              v-if="workout.showDetails"
+              v-html="workout.workout_data"
+            ></div>
           </div>
         </div>
         <div v-if="errorMessage" class="alert alert-danger mt-4" role="alert">
@@ -78,19 +130,19 @@
 </template>
 
 <script>
-import axios from 'axios';
-import Groq from 'groq-sdk';
+import axios from "axios";
+import Groq from "groq-sdk";
 
 export default {
   data() {
     return {
-      level: 'beginner',
-      gender: '',
-      goal: '',
-      equipment: ['bodyweight'],
-      workoutDescription: '',
+      level: "beginner",
+      gender: "",
+      goal: "",
+      equipment: ["bodyweight"],
+      workoutDescription: "",
       savedWorkouts: [],
-      errorMessage: '',
+      errorMessage: "",
       isLoading: false,
       showNewWorkout: false,
     };
@@ -101,60 +153,74 @@ export default {
   },
   methods: {
     async fetchProfile() {
-  const token = localStorage.getItem('token');
-  console.log('Fetching profile with token:', token); 
-  if (!token) {
-    this.errorMessage = 'Токен відсутній. Увійдіть у систему.';
-    this.$router.push('/login');
-    return;
-  }
-  try {
-    const response = await axios.get('http://93.170.78.64:5000/api/profile', {
-      headers: { Authorization: `Bearer ${token}` }, 
-    });
-    const { gender, goal } = response.data; 
-    this.gender = gender || this.gender; 
-    this.goal = goal || this.goal;
-  } catch (error) {
-    console.error('Ошибка в fetchProfile:', error.response?.data || error.message);
-    this.errorMessage = error.response?.data || 'Помилка при отриманні даних профілю';
-    if (error.response?.status === 401 || error.response?.status === 403) {
-      this.$router.push('/login');
-    }
-  }
-},
+      const token = localStorage.getItem("token");
+      console.log("Fetching profile with token:", token);
+      if (!token) {
+        this.errorMessage = "Токен відсутній. Увійдіть у систему.";
+        this.$router.push("/login");
+        return;
+      }
+      try {
+        const response = await axios.get(
+          "http://93.170.78.64:5000/api/profile",
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+        const { gender, goal } = response.data;
+        this.gender = gender || this.gender;
+        this.goal = goal || this.goal;
+      } catch (error) {
+        console.error(
+          "Ошибка в fetchProfile:",
+          error.response?.data || error.message
+        );
+        this.errorMessage =
+          error.response?.data || "Помилка при отриманні даних профілю";
+        if (error.response?.status === 401 || error.response?.status === 403) {
+          this.$router.push("/login");
+        }
+      }
+    },
     async fetchWorkouts() {
-  const token = localStorage.getItem('token');
-  console.log('Fetching workouts with token:', token); 
-  if (!token) {
-    this.errorMessage = 'Токен відсутній. Увійдіть у систему.';
-    this.$router.push('/login');
-    return;
-  }
-  try {
-    const response = await axios.get('http://93.170.78.64:5000/api/workouts', {
-      headers: { Authorization: `Bearer ${token}` }, 
-    });
-    this.savedWorkouts = response.data.map(workout => ({
-      ...workout,
-      showDetails: false,
-    }));
-    this.errorMessage = ''; 
-  } catch (error) {
-    console.error('Ошибка в fetchWorkouts:', error.response?.data || error.message);
-    this.errorMessage = error.response?.data || 'Помилка при отриманні збережених тренувань';
-    if (error.response?.status === 401 || error.response?.status === 403) {
-      this.$router.push('/login'); 
-    }
-  }
-},
+      const token = localStorage.getItem("token");
+      console.log("Fetching workouts with token:", token);
+      if (!token) {
+        this.errorMessage = "Токен відсутній. Увійдіть у систему.";
+        this.$router.push("/login");
+        return;
+      }
+      try {
+        const response = await axios.get(
+          "http://93.170.78.64:5000/api/workouts",
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+        this.savedWorkouts = response.data.map((workout) => ({
+          ...workout,
+          showDetails: false,
+        }));
+        this.errorMessage = "";
+      } catch (error) {
+        console.error(
+          "Ошибка в fetchWorkouts:",
+          error.response?.data || error.message
+        );
+        this.errorMessage =
+          error.response?.data || "Помилка при отриманні збережених тренувань";
+        if (error.response?.status === 401 || error.response?.status === 403) {
+          this.$router.push("/login");
+        }
+      }
+    },
     async generateWorkout() {
       this.isLoading = true;
-      this.workoutDescription = '';
+      this.workoutDescription = "";
       this.showNewWorkout = false;
 
       const groq = new Groq({
-        apiKey: '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',
+        apiKey: "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",
         dangerouslyAllowBrowser: true,
       });
 
@@ -162,66 +228,85 @@ export default {
         const completion = await groq.chat.completions.create({
           messages: [
             {
-              role: 'user',
-              content: `Створи тренування для користувача з рівнем ${this.level}, статтю ${this.gender}, метою ${this.goal} та інвентарем ${this.equipment.join(', ')}. Відформатуй відповідь у HTML з тегами для заголовків, списків і виділення тексту, щоб її можна було відобразити на веб-сторінці.`,
+              role: "user",
+              content: `Створи тренування для користувача з рівнем ${
+                this.level
+              }, статтю ${this.gender}, метою ${
+                this.goal
+              } та інвентарем ${this.equipment.join(
+                ", "
+              )}. Відформатуй відповідь у HTML з тегами для заголовків, списків і виділення тексту, щоб її можна було відобразити на веб-сторінці.`,
             },
           ],
-          model: 'llama-3.3-70b-versatile',
+          model: "llama-3.3-70b-versatile",
         });
 
-        this.workoutDescription = completion.choices[0]?.message?.content || 'Не вдалося згенерувати тренування.';
-        this.errorMessage = '';
+        this.workoutDescription =
+          completion.choices[0]?.message?.content ||
+          "Не вдалося згенерувати тренування.";
+        this.errorMessage = "";
         this.showNewWorkout = true;
 
         await axios.post(
-  'http://93.170.78.64:5000/api/workouts',
-  { workout_data: this.workoutDescription },
-  { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } } 
-);
+          "http://93.170.78.64:5000/api/workouts",
+          { workout_data: this.workoutDescription },
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
 
         this.fetchWorkouts();
       } catch (error) {
-        console.error('Помилка при генерації тренування:', error);
+        console.error("Помилка при генерації тренування:", error);
         this.errorMessage = `Сталася помилка: ${error.message}. Будь ласка, перевірте консоль для додаткової інформації.`;
       } finally {
         this.isLoading = false;
       }
     },
     toggleWorkoutDetails(workoutId) {
-      if (workoutId === 'new') {
+      if (workoutId === "new") {
         this.showNewWorkout = !this.showNewWorkout;
       } else {
-        const workout = this.savedWorkouts.find(w => w.id === workoutId);
+        const workout = this.savedWorkouts.find((w) => w.id === workoutId);
         if (workout) {
           workout.showDetails = !workout.showDetails;
         }
       }
     },
     async deleteWorkout(workoutId) {
-  try {
-    if (workoutId === 'new') {
-      this.workoutDescription = '';
-      this.showNewWorkout = false;
-    } else {
-      await axios.delete(`http://93.170.78.64:5000/api/workouts/${workoutId}`, {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-      });
-      
-      this.savedWorkouts = this.savedWorkouts.filter(workout => workout.id !== workoutId);
-    }
-    this.errorMessage = ''; 
-  } catch (error) {
-    console.error('Помилка при видаленні тренування:', error);
-    this.errorMessage = 'Помилка при видаленні тренування';
-  }
-},
+      try {
+        if (workoutId === "new") {
+          this.workoutDescription = "";
+          this.showNewWorkout = false;
+        } else {
+          await axios.delete(
+            `http://93.170.78.64:5000/api/workouts/${workoutId}`,
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+            }
+          );
+
+          this.savedWorkouts = this.savedWorkouts.filter(
+            (workout) => workout.id !== workoutId
+          );
+        }
+        this.errorMessage = "";
+      } catch (error) {
+        console.error("Помилка при видаленні тренування:", error);
+        this.errorMessage = "Помилка при видаленні тренування";
+      }
+    },
   },
 };
 </script>
 
 <style scoped>
 * {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
 }
 
 .container {
@@ -234,7 +319,8 @@ export default {
   animation: fadeIn 0.5s ease-out;
 }
 
-h2, h3 {
+h2,
+h3 {
   color: var(--text-color);
   font-weight: 700;
   animation: slideInLeft 0.5s ease-out;
@@ -339,21 +425,39 @@ h2, h3 {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes slideInLeft {
-  from { transform: translateX(-20px); opacity: 0; }
-  to { transform: translateX(0); opacity: 1; }
+  from {
+    transform: translateX(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 
 @keyframes floatUp {
-  to { transform: translateY(0); }
+  to {
+    transform: translateY(0);
+  }
 }
 
 @keyframes fadeInUp {
-  from { transform: translateY(20px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 </style>

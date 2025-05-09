@@ -4,23 +4,54 @@
     <form @submit.prevent="updateProfile">
       <div class="mb-3">
         <label for="username" class="form-label">Ім’я користувача:</label>
-        <input type="text" id="username" v-model="username" class="form-control" required />
+        <input
+          type="text"
+          id="username"
+          v-model="username"
+          class="form-control"
+          required
+        />
       </div>
       <div class="mb-3">
         <label for="email" class="form-label">Email:</label>
-        <input type="email" id="email" v-model="email" class="form-control" required disabled />
+        <input
+          type="email"
+          id="email"
+          v-model="email"
+          class="form-control"
+          required
+          disabled
+        />
       </div>
       <div class="mb-3">
         <label for="age" class="form-label">Вік:</label>
-        <input type="number" id="age" v-model="age" class="form-control" required />
+        <input
+          type="number"
+          id="age"
+          v-model="age"
+          class="form-control"
+          required
+        />
       </div>
       <div class="mb-3">
         <label for="height" class="form-label">Зріст (см):</label>
-        <input type="number" id="height" v-model="height" class="form-control" required />
+        <input
+          type="number"
+          id="height"
+          v-model="height"
+          class="form-control"
+          required
+        />
       </div>
       <div class="mb-3">
         <label for="weight" class="form-label">Вага (кг):</label>
-        <input type="number" id="weight" v-model="weight" class="form-control" required />
+        <input
+          type="number"
+          id="weight"
+          v-model="weight"
+          class="form-control"
+          required
+        />
       </div>
       <div class="mb-3">
         <label for="gender" class="form-label">Стать:</label>
@@ -38,8 +69,15 @@
         </select>
       </div>
       <div class="mb-3">
-        <label for="activity_level" class="form-label">Рівень активності:</label>
-        <select id="activity_level" v-model="activity_level" class="form-select" required>
+        <label for="activity_level" class="form-label"
+          >Рівень активності:</label
+        >
+        <select
+          id="activity_level"
+          v-model="activity_level"
+          class="form-select"
+          required
+        >
           <option value="sedentary">Мізерна активність (основний обмін)</option>
           <option value="lightly_active">Мінімальна активність</option>
           <option value="moderately_active">3 рази на тиждень</option>
@@ -49,28 +87,31 @@
       </div>
       <button type="submit" class="btn btn-primary">Зберегти зміни</button>
     </form>
-    <div v-if="message" :class="{'alert alert-danger': error, 'alert alert-success': !error}" role="alert">
+    <div
+      v-if="message"
+      :class="{ 'alert alert-danger': error, 'alert alert-success': !error }"
+      role="alert"
+    >
       {{ message }}
     </div>
   </div>
 </template>
 
 <script>
-import axios from 'axios';
- 
+import axios from "axios";
 
 export default {
   data() {
     return {
-      username: '',
-      email: '',
+      username: "",
+      email: "",
       height: null,
       weight: null,
-      gender: '',
-      goal: '',
-      activity_level: '',
+      gender: "",
+      goal: "",
+      activity_level: "",
       age: null,
-      message: '',
+      message: "",
       error: false,
     };
   },
@@ -79,19 +120,31 @@ export default {
   },
   methods: {
     async fetchProfile() {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem("token");
       if (!token) {
-        this.message = 'Токен відсутній. Увійдіть у систему.';
+        this.message = "Токен відсутній. Увійдіть у систему.";
         this.error = true;
-        this.$router.push('/login'); 
+        this.$router.push("/login");
         return;
       }
-      console.log('Sending token:', token);
+      console.log("Sending token:", token);
       try {
-        const response = await axios.get('http://93.170.78.64:5000/api/profile', {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        const { username, email, height, weight, gender, goal, activity_level, age } = response.data;
+        const response = await axios.get(
+          "http://93.170.78.64:5000/api/profile",
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+        const {
+          username,
+          email,
+          height,
+          weight,
+          gender,
+          goal,
+          activity_level,
+          age,
+        } = response.data;
         this.username = username;
         this.email = email;
         this.height = height;
@@ -101,25 +154,29 @@ export default {
         this.activity_level = activity_level;
         this.age = age;
       } catch (error) {
-        console.error('Ошибка в fetchProfile:', error.response?.data || error.message);
-        this.message = error.response?.data || 'Помилка при отриманні даних профілю';
+        console.error(
+          "Ошибка в fetchProfile:",
+          error.response?.data || error.message
+        );
+        this.message =
+          error.response?.data || "Помилка при отриманні даних профілю";
         this.error = true;
         if (error.response?.status === 401) {
-          this.$router.push('/login'); 
+          this.$router.push("/login");
         }
       }
     },
     async updateProfile() {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem("token");
       if (!token) {
-        this.message = 'Токен відсутній. Увійдіть у систему.';
+        this.message = "Токен відсутній. Увійдіть у систему.";
         this.error = true;
-        this.$router.push('/login');
+        this.$router.push("/login");
         return;
       }
       try {
         const response = await axios.put(
-          'http://93.170.78.64:5000/api/profile',
+          "http://93.170.78.64:5000/api/profile",
           {
             username: this.username,
             email: this.email,
@@ -131,17 +188,20 @@ export default {
             age: this.age,
           },
           {
-            headers: { Authorization: `Bearer ${token}` }, 
+            headers: { Authorization: `Bearer ${token}` },
           }
         );
-        this.message = response.data || 'Профіль успішно оновлено';
+        this.message = response.data || "Профіль успішно оновлено";
         this.error = false;
       } catch (error) {
-        console.error('Ошибка в updateProfile:', error.response?.data || error.message);
-        this.message = error.response?.data || 'Помилка при оновленні профілю';
+        console.error(
+          "Ошибка в updateProfile:",
+          error.response?.data || error.message
+        );
+        this.message = error.response?.data || "Помилка при оновленні профілю";
         this.error = true;
         if (error.response?.status === 401) {
-          this.$router.push('/login');
+          this.$router.push("/login");
         }
       }
     },
@@ -151,14 +211,14 @@ export default {
 
 <style scoped>
 * {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
 }
 
 .container {
   max-width: 800px;
   margin: 20px;
   padding: 20px;
-  padding-top: 80px; 
+  padding-top: 80px;
   background: var(--bg-color);
   border-radius: 15px;
   box-shadow: 0 4px 15px var(--shadow-color);
@@ -167,31 +227,31 @@ export default {
 
 @media (max-width: 768px) {
   .container {
-    padding-top: 70px; 
+    padding-top: 70px;
   }
 }
 
 h2 {
   color: var(--text-color);
   font-weight: 700;
-  font-size: 1.8rem; 
+  font-size: 1.8rem;
   margin-bottom: 1.5rem;
   animation: slideInLeft 0.5s ease-out;
 }
 
 @media (max-width: 768px) {
   h2 {
-    font-size: 1.5rem; 
+    font-size: 1.5rem;
   }
 }
 
 .form-control#email {
-  color: #000000 !important; 
+  color: #000000 !important;
 }
 
 .form-control#email:disabled {
   background-color: var(--input-bg);
-  opacity: 1; 
+  opacity: 1;
 }
 
 .form-label {
@@ -201,7 +261,8 @@ h2 {
   animation: floatUp 0.5s ease-out forwards;
 }
 
-.form-control, .form-select {
+.form-control,
+.form-select {
   background-color: var(--input-bg);
   border: 1px solid var(--border-color);
   color: var(--text-color);
@@ -209,12 +270,14 @@ h2 {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.form-control:hover, .form-select:hover {
+.form-control:hover,
+.form-select:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 10px var(--shadow-color);
 }
 
-.form-control:focus, .form-select:focus {
+.form-control:focus,
+.form-select:focus {
   border-color: var(--button-bg);
   box-shadow: 0 0 8px rgba(255, 133, 162, 0.3);
 }
@@ -251,21 +314,39 @@ h2 {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes slideInLeft {
-  from { transform: translateX(-20px); opacity: 0; }
-  to { transform: translateX(0); opacity: 1; }
+  from {
+    transform: translateX(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 
 @keyframes floatUp {
-  to { transform: translateY(0); }
+  to {
+    transform: translateY(0);
+  }
 }
 
 @keyframes fadeInUp {
-  from { transform: translateY(20px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 </style>

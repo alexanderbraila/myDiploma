@@ -5,10 +5,10 @@
 </template>
 
 <script>
-import MacroCalculator from '@/components/MacroCalculator.vue';
+import MacroCalculator from "@/components/MacroCalculator.vue";
 
 export default {
-  name: 'MacroCalculatorView',
+  name: "MacroCalculatorView",
   components: {
     MacroCalculator,
   },
@@ -17,7 +17,7 @@ export default {
 
 <style scoped>
 * {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
 }
 
 .macro-calculator-view {

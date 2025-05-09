@@ -6,21 +6,21 @@
 </template>
 
 <script>
-import NavBar from './components/NavBar.vue';
+import NavBar from "./components/NavBar.vue";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
     NavBar,
   },
   data() {
     return {
-      currentTheme: localStorage.getItem('theme') || 'light',
+      currentTheme: localStorage.getItem("theme") || "light",
     };
   },
   watch: {
     currentTheme(newTheme) {
-      localStorage.setItem('theme', newTheme);
+      localStorage.setItem("theme", newTheme);
     },
   },
 };
@@ -28,12 +28,12 @@ export default {
 
 <style>
 html {
-  overflow-y: scroll; 
-  scrollbar-width: thin; 
+  overflow-y: scroll;
+  scrollbar-width: thin;
 }
 
 body {
-  padding-right: v-bind('scrollbarWidth + "px"'); 
+  padding-right: v-bind('scrollbarWidth + "px"');
   margin: 0;
   padding: 0;
   height: 100%;
@@ -42,7 +42,7 @@ body {
 }
 
 #app {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: var(--text-color);
@@ -53,12 +53,11 @@ body {
   flex-direction: column;
 }
 
-
 .router-view-create-workout,
 .router-view-macro-calculator,
 .router-view-profile,
 .router-view-GymFinder {
-  padding-top: 60px; 
+  padding-top: 60px;
 }
 
 @media (max-width: 768px) {
@@ -69,7 +68,6 @@ body {
     padding-top: 50px;
   }
 }
-
 
 .router-view-create-workout,
 .router-view-macro-calculator,

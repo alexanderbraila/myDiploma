@@ -3,7 +3,11 @@
     <div class="row">
       <div class="col-md-6 col-12">
         <h2 class="mb-4">Калькулятор БЖВ</h2>
-        <form @submit.prevent="calculateMacros" class="needs-validation" novalidate>
+        <form
+          @submit.prevent="calculateMacros"
+          class="needs-validation"
+          novalidate
+        >
           <div class="mb-3">
             <label for="gender" class="form-label">Стать:</label>
             <select id="gender" v-model="gender" class="form-select" required>
@@ -13,29 +17,58 @@
             <div class="invalid-feedback">Будь ласка, виберіть стать.</div>
           </div>
           <div class="mb-3">
-            <label for="activityLevel" class="form-label">Рівень фізичної підготовки:</label>
-            <select id="activityLevel" v-model="activityLevel" class="form-select" required>
-              <option value="sedentary">Мізерна активність (основний обмін)</option>
+            <label for="activityLevel" class="form-label"
+              >Рівень фізичної підготовки:</label
+            >
+            <select
+              id="activityLevel"
+              v-model="activityLevel"
+              class="form-select"
+              required
+            >
+              <option value="sedentary">
+                Мізерна активність (основний обмін)
+              </option>
               <option value="lightly_active">Мінімальна активність</option>
               <option value="moderately_active">3 рази на тиждень</option>
               <option value="very_active">5 разів на тиждень</option>
               <option value="extra_active">Щодня</option>
             </select>
-            <div class="invalid-feedback">Будь ласка, виберіть рівень активності.</div>
+            <div class="invalid-feedback">
+              Будь ласка, виберіть рівень активності.
+            </div>
           </div>
           <div class="mb-3">
             <label for="age" class="form-label">Вік:</label>
-            <input type="number" id="age" v-model="age" class="form-control" required />
+            <input
+              type="number"
+              id="age"
+              v-model="age"
+              class="form-control"
+              required
+            />
             <div class="invalid-feedback">Будь ласка, вкажіть вік.</div>
           </div>
           <div class="mb-3">
             <label for="weight" class="form-label">Вага (кг):</label>
-            <input type="number" id="weight" v-model="weight" class="form-control" required />
+            <input
+              type="number"
+              id="weight"
+              v-model="weight"
+              class="form-control"
+              required
+            />
             <div class="invalid-feedback">Будь ласка, вкажіть вагу.</div>
           </div>
           <div class="mb-3">
             <label for="height" class="form-label">Зріст (см):</label>
-            <input type="number" id="height" v-model="height" class="form-control" required />
+            <input
+              type="number"
+              id="height"
+              v-model="height"
+              class="form-control"
+              required
+            />
             <div class="invalid-feedback">Будь ласка, вкажіть зріст.</div>
           </div>
           <div class="mb-3">
@@ -47,8 +80,17 @@
             </select>
             <div class="invalid-feedback">Будь ласка, виберіть мету.</div>
           </div>
-          <button type="submit" class="btn btn-primary btn-lg w-100" :disabled="isLoading">
-            <span v-if="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+          <button
+            type="submit"
+            class="btn btn-primary btn-lg w-100"
+            :disabled="isLoading"
+          >
+            <span
+              v-if="isLoading"
+              class="spinner-border spinner-border-sm"
+              role="status"
+              aria-hidden="true"
+            ></span>
             <span v-else>Розрахувати БЖВ</span>
           </button>
         </form>
@@ -62,24 +104,51 @@
         </div>
         <div v-if="showNewMacro">
           <div class="card mb-3">
-            <div class="card-header d-flex justify-content-between align-items-center">
-              <button class="btn btn-link" type="button" @click="toggleMacroDetails('new')">
-                {{ showNewMacro ? 'Приховати' : 'Показати' }} новий розрахунок
+            <div
+              class="card-header d-flex justify-content-between align-items-center"
+            >
+              <button
+                class="btn btn-link"
+                type="button"
+                @click="toggleMacroDetails('new')"
+              >
+                {{ showNewMacro ? "Приховати" : "Показати" }} новий розрахунок
               </button>
-              <button class="btn btn-danger btn-sm" @click="deleteMacro('new')">Видалити</button>
+              <button class="btn btn-danger btn-sm" @click="deleteMacro('new')">
+                Видалити
+              </button>
             </div>
-            <div class="card-body" v-if="showNewMacro" v-html="macroDescription"></div>
+            <div
+              class="card-body"
+              v-if="showNewMacro"
+              v-html="macroDescription"
+            ></div>
           </div>
         </div>
         <div v-if="savedMacros.length > 0">
           <div v-for="macro in savedMacros" :key="macro.id" class="card mb-3">
-            <div class="card-header d-flex justify-content-between align-items-center">
-              <button class="btn btn-link" type="button" @click="toggleMacroDetails(macro.id)">
-                {{ macro.showDetails ? 'Приховати' : 'Показати' }} розрахунок
+            <div
+              class="card-header d-flex justify-content-between align-items-center"
+            >
+              <button
+                class="btn btn-link"
+                type="button"
+                @click="toggleMacroDetails(macro.id)"
+              >
+                {{ macro.showDetails ? "Приховати" : "Показати" }} розрахунок
               </button>
-              <button class="btn btn-danger btn-sm" @click="deleteMacro(macro.id)">Видалити</button>
+              <button
+                class="btn btn-danger btn-sm"
+                @click="deleteMacro(macro.id)"
+              >
+                Видалити
+              </button>
             </div>
-            <div class="card-body" v-if="macro.showDetails" v-html="macro.macro_data"></div>
+            <div
+              class="card-body"
+              v-if="macro.showDetails"
+              v-html="macro.macro_data"
+            ></div>
           </div>
         </div>
         <div v-if="errorMessage" class="alert alert-danger mt-4" role="alert">
@@ -91,21 +160,21 @@
 </template>
 
 <script>
-import axios from 'axios';
-import Groq from 'groq-sdk';
+import axios from "axios";
+import Groq from "groq-sdk";
 
 export default {
   data() {
     return {
-      gender: '',
-      activityLevel: '',
+      gender: "",
+      activityLevel: "",
       age: null,
       weight: null,
       height: null,
-      goal: '',
-      macroDescription: '',
+      goal: "",
+      macroDescription: "",
       savedMacros: [],
-      errorMessage: '',
+      errorMessage: "",
       isLoading: false,
       showNewMacro: false,
     };
@@ -116,64 +185,80 @@ export default {
   },
   methods: {
     async fetchProfile() {
-  const token = localStorage.getItem('token');
-  console.log('Fetching profile with token:', token); 
-  if (!token) {
-    this.errorMessage = 'Токен відсутній. Увійдіть у систему.';
-    this.$router.push('/login');
-    return;
-  }
-  try {
-    const response = await axios.get('http://93.170.78.64:5000/api/profile', {
-      headers: { Authorization: `Bearer ${token}` }, 
-    });
-    const { gender, activity_level, age, weight, height, goal } = response.data; 
-    this.gender = gender || this.gender;
-    this.activityLevel = activity_level || this.activityLevel;
-    this.age = age || this.age;
-    this.weight = weight || this.weight;
-    this.height = height || this.height;
-    this.goal = goal || this.goal;
-  } catch (error) {
-    console.error('Ошибка в fetchProfile:', error.response?.data || error.message);
-    this.errorMessage = error.response?.data || 'Помилка при отриманні даних профілю';
-    if (error.response?.status === 401 || error.response?.status === 403) {
-      this.$router.push('/login');
-    }
-  }
-},
+      const token = localStorage.getItem("token");
+      console.log("Fetching profile with token:", token);
+      if (!token) {
+        this.errorMessage = "Токен відсутній. Увійдіть у систему.";
+        this.$router.push("/login");
+        return;
+      }
+      try {
+        const response = await axios.get(
+          "http://93.170.78.64:5000/api/profile",
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+        const { gender, activity_level, age, weight, height, goal } =
+          response.data;
+        this.gender = gender || this.gender;
+        this.activityLevel = activity_level || this.activityLevel;
+        this.age = age || this.age;
+        this.weight = weight || this.weight;
+        this.height = height || this.height;
+        this.goal = goal || this.goal;
+      } catch (error) {
+        console.error(
+          "Ошибка в fetchProfile:",
+          error.response?.data || error.message
+        );
+        this.errorMessage =
+          error.response?.data || "Помилка при отриманні даних профілю";
+        if (error.response?.status === 401 || error.response?.status === 403) {
+          this.$router.push("/login");
+        }
+      }
+    },
     async fetchMacros() {
-  const token = localStorage.getItem('token');
-  console.log('Fetching macros with token:', token); 
-  if (!token) {
-    this.errorMessage = 'Токен відсутній. Увійдіть у систему.';
-    this.$router.push('/login');
-    return;
-  }
-  try {
-    const response = await axios.get('http://93.170.78.64:5000/api/macros', {
-      headers: { Authorization: `Bearer ${token}` }, 
-    });
-    this.savedMacros = response.data.map(macro => ({
-      ...macro,
-      showDetails: false,
-    }));
-    this.errorMessage = ''; 
-  } catch (error) {
-    console.error('Ошибка в fetchMacros:', error.response?.data || error.message);
-    this.errorMessage = error.response?.data || 'Помилка при отриманні збережених розрахунків БЖВ';
-    if (error.response?.status === 401 || error.response?.status === 403) {
-      this.$router.push('/login'); 
-    }
-  }
-},
+      const token = localStorage.getItem("token");
+      console.log("Fetching macros with token:", token);
+      if (!token) {
+        this.errorMessage = "Токен відсутній. Увійдіть у систему.";
+        this.$router.push("/login");
+        return;
+      }
+      try {
+        const response = await axios.get(
+          "http://93.170.78.64:5000/api/macros",
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+        this.savedMacros = response.data.map((macro) => ({
+          ...macro,
+          showDetails: false,
+        }));
+        this.errorMessage = "";
+      } catch (error) {
+        console.error(
+          "Ошибка в fetchMacros:",
+          error.response?.data || error.message
+        );
+        this.errorMessage =
+          error.response?.data ||
+          "Помилка при отриманні збережених розрахунків БЖВ";
+        if (error.response?.status === 401 || error.response?.status === 403) {
+          this.$router.push("/login");
+        }
+      }
+    },
     async calculateMacros() {
       this.isLoading = true;
-      this.macroDescription = '';
+      this.macroDescription = "";
       this.showNewMacro = false;
 
       const groq = new Groq({
-        apiKey: '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',
+        apiKey: "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",
         dangerouslyAllowBrowser: true,
       });
 
@@ -181,66 +266,76 @@ export default {
         const completion = await groq.chat.completions.create({
           messages: [
             {
-              role: 'user',
+              role: "user",
               content: `Розрахуй БЖВ для користувача зі статтю ${this.gender}, рівнем активності ${this.activityLevel}, віком ${this.age}, вагою ${this.weight} кг, зростом ${this.height} см і метою ${this.goal}. Відформатуй відповідь у HTML з тегами для заголовків, списків і виділення тексту, щоб її можна було відобразити на веб-сторінці.`,
             },
           ],
-          model: 'llama-3.3-70b-versatile',
+          model: "llama-3.3-70b-versatile",
         });
 
-        this.macroDescription = completion.choices[0]?.message?.content || 'Не вдалося розрахувати БЖВ.';
-        this.errorMessage = '';
+        this.macroDescription =
+          completion.choices[0]?.message?.content ||
+          "Не вдалося розрахувати БЖВ.";
+        this.errorMessage = "";
         this.showNewMacro = true;
 
         await axios.post(
-  'http://93.170.78.64:5000/api/macros',
-  { macro_data: this.macroDescription },
-  { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } } 
-);
+          "http://93.170.78.64:5000/api/macros",
+          { macro_data: this.macroDescription },
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
 
         this.fetchMacros();
       } catch (error) {
-        console.error('Помилка при розрахунку БЖВ:', error);
+        console.error("Помилка при розрахунку БЖВ:", error);
         this.errorMessage = `Сталася помилка: ${error.message}. Будь ласка, перевірте консоль для додаткової інформації.`;
       } finally {
         this.isLoading = false;
       }
     },
     toggleMacroDetails(macroId) {
-      if (macroId === 'new') {
+      if (macroId === "new") {
         this.showNewMacro = !this.showNewMacro;
       } else {
-        const macro = this.savedMacros.find(m => m.id === macroId);
+        const macro = this.savedMacros.find((m) => m.id === macroId);
         if (macro) {
           macro.showDetails = !macro.showDetails;
         }
       }
     },
     async deleteMacro(macroId) {
-  try {
-    if (macroId === 'new') {
-      this.macroDescription = '';
-      this.showNewMacro = false;
-    } else {
-      await axios.delete(`http://93.170.78.64:5000/api/macros/${macroId}`, {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-      });
-      
-      this.savedMacros = this.savedMacros.filter(macro => macro.id !== macroId);
-    }
-    this.errorMessage = ''; 
-  } catch (error) {
-    console.error('Помилка при видаленні розрахунку БЖВ:', error);
-    this.errorMessage = 'Помилка при видаленні розрахунку БЖВ';
-  }
-},
+      try {
+        if (macroId === "new") {
+          this.macroDescription = "";
+          this.showNewMacro = false;
+        } else {
+          await axios.delete(`http://93.170.78.64:5000/api/macros/${macroId}`, {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          });
+
+          this.savedMacros = this.savedMacros.filter(
+            (macro) => macro.id !== macroId
+          );
+        }
+        this.errorMessage = "";
+      } catch (error) {
+        console.error("Помилка при видаленні розрахунку БЖВ:", error);
+        this.errorMessage = "Помилка при видаленні розрахунку БЖВ";
+      }
+    },
   },
 };
 </script>
 
 <style scoped>
 * {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
 }
 
 .container {
@@ -253,7 +348,8 @@ export default {
   animation: fadeIn 0.5s ease-out;
 }
 
-h2, h3 {
+h2,
+h3 {
   color: var(--text-color);
   font-weight: 700;
   animation: slideInLeft 0.5s ease-out;
@@ -266,7 +362,8 @@ h2, h3 {
   animation: floatUp 0.5s ease-out forwards;
 }
 
-.form-control, .form-select {
+.form-control,
+.form-select {
   background-color: var(--input-bg);
   border: 1px solid var(--border-color);
   color: var(--text-color);
@@ -274,12 +371,14 @@ h2, h3 {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.form-control:hover, .form-select:hover {
+.form-control:hover,
+.form-select:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 10px var(--shadow-color);
 }
 
-.form-control:focus, .form-select:focus {
+.form-control:focus,
+.form-select:focus {
   border-color: var(--button-bg);
   box-shadow: 0 0 8px rgba(255, 133, 162, 0.3);
 }
@@ -314,13 +413,13 @@ h2, h3 {
 }
 
 .card-body {
-  color: var(--text-color); 
+  color: var(--text-color);
   padding: 15px;
   border-radius: 0 0 10px 10px;
 }
 
 .card-body * {
-  color: inherit; 
+  color: inherit;
 }
 
 .btn-link {
@@ -351,21 +450,39 @@ h2, h3 {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes slideInLeft {
-  from { transform: translateX(-20px); opacity: 0; }
-  to { transform: translateX(0); opacity: 1; }
+  from {
+    transform: translateX(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 
 @keyframes floatUp {
-  to { transform: translateY(0); }
+  to {
+    transform: translateY(0);
+  }
 }
 
 @keyframes fadeInUp {
-  from { transform: translateY(20px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 </style>
