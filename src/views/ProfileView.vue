@@ -216,7 +216,8 @@ export default {
 
 .container {
   max-width: 800px;
-  margin: 20px;
+  margin: auto;
+  margin-top: 100px;
   padding: 20px;
   padding-top: 80px;
   background: var(--bg-color);

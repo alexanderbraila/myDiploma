@@ -386,10 +386,10 @@ export default {
 
 <style scoped>
 .container {
-  margin: 0;
+  margin: auto;
+  margin-top: 100px;
   width: 100%;
   padding: 20px;
-  padding-top: 80px;
   background: var(--bg-color);
   border-radius: 15px;
   box-shadow: 0 4px 15px var(--shadow-color);

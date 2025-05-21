@@ -312,7 +312,7 @@ export default {
 
 .container {
   width: 100%;
-  margin: 0;
+  margin: auto;
   padding: 20px;
   background: var(--bg-color);
   border-radius: 15px;

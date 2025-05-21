@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "@/views/HomeView.vue";
 import CreateWorkoutView from "@/views/CreateWorkoutView.vue";
-import NearestGymView from "@/views/NearestGymView.vue";
 import RegisterView from "@/views/RegisterView.vue";
 import LoginView from "@/views/LoginView.vue";
 import MacroCalculatorView from "@/views/MacroCalculatorView.vue";
@@ -17,12 +16,6 @@ const routes = [
     path: "/create-workout",
     name: "create-workout",
     component: CreateWorkoutView,
-    meta: { requiresAuth: true },
-  },
-  {
-    path: "/nearest-gym",
-    name: "nearest-gym",
-    component: NearestGymView,
     meta: { requiresAuth: true },
   },
   {

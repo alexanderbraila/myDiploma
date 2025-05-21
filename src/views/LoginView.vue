@@ -102,10 +102,11 @@ export default {
   font-family: "Inter", sans-serif;
 }
 
+
 .login {
-  max-width: 400px;
-  margin: 20px;
-  margin-top: 55px;
+  width: 400px;
+  margin: auto;
+  margin-top: 100px;
   padding: 20px;
   background: var(--bg-color);
   border-radius: 15px;
