@@ -130,7 +130,7 @@ export default {
       console.log("Sending token:", token);
       try {
         const response = await axios.get(
-          "http://93.170.78.64:5000/api/profile",
+          "https://93.170.78.64:5000/api/profile",
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -176,7 +176,7 @@ export default {
       }
       try {
         const response = await axios.put(
-          "http://93.170.78.64:5000/api/profile",
+          "https://93.170.78.64:5000/api/profile",
           {
             username: this.username,
             email: this.email,

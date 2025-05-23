@@ -88,8 +88,7 @@
                   >★</span
                 >
               </div>
-            </div>
-            клуб
+            </div>            
           </div>
           <button class="carousel-prev" @click="scrollCarousel(-1)">❮</button>
           <button class="carousel-next" @click="scrollCarousel(1)">❯</button>
@@ -348,7 +347,7 @@ export default {
           return;
         }
         await axios.post(
-          "http://93.170.78.64:5000/api/bookings",
+          "https://93.170.78.64:5000/api/bookings",
           {
             name: this.bookingForm.name,
             phone: this.bookingForm.phone,
