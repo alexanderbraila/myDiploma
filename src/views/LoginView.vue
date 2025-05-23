@@ -54,7 +54,7 @@ export default {
       try {
         console.log("Надсилання запиту на вхід...");
         const response = await axios.post(
-          "/api/login",
+          "https://braila.pp.ua/api/login",
           {
             email: this.email,
             password: this.password,

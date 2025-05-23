@@ -195,7 +195,7 @@ export default {
       }
       try {
         const response = await axios.get(
-          "/api/profile",
+          "https://braila.pp.ua/api/profile",
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -230,7 +230,7 @@ export default {
       }
       try {
         const response = await axios.get(
-          "/api/macros",
+          "https://braila.pp.ua/api/macros",
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -281,7 +281,7 @@ export default {
         this.showNewMacro = true;
 
         await axios.post(
-          "/api/macros",
+          "https://braila.pp.ua/api/macros",
           { macro_data: this.macroDescription },
           {
             headers: {

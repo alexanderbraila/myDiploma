@@ -163,7 +163,7 @@ export default {
       }
       try {
         const response = await axios.get(
-          "/api/profile",
+          "https://braila.pp.ua/api/profile",
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -193,7 +193,7 @@ export default {
       }
       try {
         const response = await axios.get(
-          "/api/workouts",
+          "https://braila.pp.ua/api/workouts",
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -249,7 +249,7 @@ export default {
         this.showNewWorkout = true;
 
         await axios.post(
-          "/api/workouts",
+          "https://braila.pp.ua/api/workouts",
           { workout_data: this.workoutDescription },
           {
             headers: {
@@ -283,7 +283,7 @@ export default {
           this.showNewWorkout = false;
         } else {
           await axios.delete(
-            `/api/workouts/${workoutId}`,
+            `https://braila.pp.ua/api/workouts/${workoutId}`,
             {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,

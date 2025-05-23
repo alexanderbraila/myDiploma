@@ -347,7 +347,7 @@ export default {
           return;
         }
         await axios.post(
-          "/api/bookings",
+          "https://braila.pp.ua/api/bookings",
           {
             name: this.bookingForm.name,
             phone: this.bookingForm.phone,

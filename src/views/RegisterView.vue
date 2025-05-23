@@ -41,7 +41,7 @@ export default {
   methods: {
     async register() {
       try {
-        await axios.post("http://93.170.78.64:5000/api/register", {
+        await axios.post("https://braila.pp.ua/api/register", {
           username: this.username,
           email: this.email,
           password: this.password,
