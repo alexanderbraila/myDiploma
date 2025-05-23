@@ -347,7 +347,7 @@ export default {
           return;
         }
         await axios.post(
-          "https://93.170.78.64:5000/api/bookings",
+          "/api/bookings",
           {
             name: this.bookingForm.name,
             phone: this.bookingForm.phone,

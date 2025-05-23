@@ -195,7 +195,7 @@ export default {
       }
       try {
         const response = await axios.get(
-          "https://93.170.78.64:5000/api/profile",
+          "/api/profile",
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -230,7 +230,7 @@ export default {
       }
       try {
         const response = await axios.get(
-          "https://93.170.78.64:5000/api/macros",
+          "/api/macros",
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -281,7 +281,7 @@ export default {
         this.showNewMacro = true;
 
         await axios.post(
-          "https://93.170.78.64:5000/api/macros",
+          "/api/macros",
           { macro_data: this.macroDescription },
           {
             headers: {
@@ -314,7 +314,7 @@ export default {
           this.macroDescription = "";
           this.showNewMacro = false;
         } else {
-          await axios.delete(`https://93.170.78.64:5000/api/macros/${macroId}`, {
+          await axios.delete(`/api/macros/${macroId}`, {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
             },

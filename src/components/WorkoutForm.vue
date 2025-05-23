@@ -163,7 +163,7 @@ export default {
       }
       try {
         const response = await axios.get(
-          "https://93.170.78.64:5000/api/profile",
+          "/api/profile",
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -193,7 +193,7 @@ export default {
       }
       try {
         const response = await axios.get(
-          "https://93.170.78.64:5000/api/workouts",
+          "/api/workouts",
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -249,7 +249,7 @@ export default {
         this.showNewWorkout = true;
 
         await axios.post(
-          "https://93.170.78.64:5000/api/workouts",
+          "/api/workouts",
           { workout_data: this.workoutDescription },
           {
             headers: {
@@ -283,7 +283,7 @@ export default {
           this.showNewWorkout = false;
         } else {
           await axios.delete(
-            `https://93.170.78.64:5000/api/workouts/${workoutId}`,
+            `/api/workouts/${workoutId}`,
             {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
